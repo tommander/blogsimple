@@ -1,0 +1,99 @@
+/* :root {
+} */
+html {
+    box-sizing: border-box;
+}
+*,::after,::before {
+    box-sizing:inherit;
+}
+*, ::before, ::after {
+	margin: 0;
+	padding: 0;
+}
+body {
+    background-color: #eee;
+}
+#container {
+    max-width: 1024px;
+  margin: auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: #eee;
+}
+header, footer {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+header > span {
+  font-family: 'Averia', cursive;
+  font-size: xx-large;
+  padding: 0.5rem 1rem;
+}
+nav {
+    margin-top: 1rem;
+    padding-bottom: 1.0rem;
+}
+nav > menu {
+    display: flex;
+    justify-content: center;
+}
+nav > menu li {
+    display: inline-block;
+}
+nav > menu li > a::before {
+    content: '🌏 ';
+}
+nav > menu li > a.post::before {
+    content: '🗞️ ';
+}
+nav > menu li > a.page::before {
+    content: '📚 ';
+}
+nav > menu li > a,
+nav > menu li > a:any-link
+{
+    text-decoration: none;
+    /*padding-bottom: 0.25rem;*/
+    border-bottom: 1px solid #777;
+    margin: 0 0.5rem;
+    color: #333;
+}
+nav > menu li > a:hover {
+    color: #000;
+    border-bottom: 1px solid #000;
+}
+nav > menu li > a:active {
+    color: #000;
+    border-bottom: 1px dashed #000;
+}
+hr {
+  background: linear-gradient(to left, #fff, #777, #fff);
+  height: 1px;
+  border: none;
+}
+hr.medium {
+  height: 2px;
+}
+main {
+    margin: 1rem;
+}
+footer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ========================= */
+
+h1 {
+    margin-bottom: 0.5rem;
+}
+p { 
+   text-indent: 30px;
+}
+p:first-of-type {
+    text-indent: 0px;
+}
+/* p::first-line {
+    margin-left: 0.25rem;
+} */
