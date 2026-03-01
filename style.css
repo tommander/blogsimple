@@ -7,11 +7,64 @@ html {
     box-sizing:inherit;
 }
 *, ::before, ::after {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 body {
     background-color: #eee;
+    font-family: "AvrileSerifRegular", serif;
+    font-size: large;
+}
+b,strong {
+  font-family: "AvrilSerifBold", serif;
+  font-weight: 700;
+}
+em,i,cite,dfn,var {
+  font-family: "AvrilSerifItalic", serif;
+  font-size: medium;
+}
+pre,code,kbd,samp {
+  font-family: "SourceCodeProRegular", monospace;
+  font-size: small;
+
+  em,i,cite,dfn,var {
+    font-family: "SourceCodeProItalic", serif;
+  
+    b,strong {
+      font-family: "SourceCodeProBoldItalic", serif;
+      font-weight: 700;
+    }
+  }
+
+  b,strong {
+    font-family: "AvrilSerifBold", serif;
+    font-weight: 700;
+
+    em,i,cite,dfn,var {
+      font-family: "SourceCodeProBoldItalic", serif;
+    }
+  }
+}
+label,legend,figcaption,caption,nav {
+  font-family: "Cantora", sans-serif;
+
+  em,i,cite,dfn,var {
+    font-family: "Cantora", sans-serif;
+    font-style: italic;
+  }
+}
+h1,h2,h3,h4,h5,h6,.dialog-heading {
+    font-family: "Cantora", sans-serif;
+}
+header > span {
+  font-family: 'Averia', cursive;
+  font-size: xx-large;
+  /* padding: 0.5rem 1rem; */
+}
+
+body:has(dialog[open]) > #container > *:not(dialog) {
+  display: none;
+  
 }
 #container {
     max-width: 1024px;
@@ -25,14 +78,15 @@ header, footer {
   display: flex;
   justify-content: center;
 }
-header > span {
-  font-family: 'Averia', cursive;
-  font-size: xx-large;
-  padding: 0.5rem 1rem;
-}
 nav {
     margin-top: 1rem;
-    padding-bottom: 1.0rem;
+}
+nav, footer {
+    background: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.05), rgba(0,0,0,0));
+    padding: 0.5rem 0;
+}
+footer {
+  font-size: medium;
 }
 nav > menu {
     display: flex;
@@ -54,18 +108,16 @@ nav > menu li > a,
 nav > menu li > a:any-link
 {
     text-decoration: none;
-    /*padding-bottom: 0.25rem;*/
-    border-bottom: 1px solid #777;
     margin: 0 0.5rem;
     color: #333;
 }
 nav > menu li > a:hover {
+    font-weight: bold;
     color: #000;
-    border-bottom: 1px solid #000;
 }
 nav > menu li > a:active {
     color: #000;
-    border-bottom: 1px dashed #000;
+    text-decoration: underline;
 }
 hr {
   background: linear-gradient(to left, #fff, #777, #fff);
@@ -78,22 +130,208 @@ hr.medium {
 main {
     margin: 1rem;
 }
-footer {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
+/* footer {
+} */
 
 /* ========================= */
-
+ul,ol,menu {
+  margin-left: 1em;
+}
 h1 {
-    margin-bottom: 0.5rem;
+    font-size: xx-large;
+    color: #005;
 }
-p { 
-   text-indent: 30px;
+h2,.dialog-heading {
+    font-size: x-large;
+    color: #050;
 }
-p:first-of-type {
-    text-indent: 0px;
+h3 {
+    font-size: x-large;
+    color: #055;
 }
-/* p::first-line {
+h4 {
+    font-size: larger;
+    color: #550;
+}
+h5 {
+    font-size: large;
+    color: #505;
+}
+h6 {
+    font-size: large;
+    color: #500;
+}
+
+p {
+  text-indent: 30px;
+  line-height: 1.33;
+}
+p:first-of-type:not(.do-indent) {
+  text-indent: 0px;
+}
+table {
+  border-collapse: collapse;
+}
+th,td {
+  border: 1px solid #999;
+  padding: 0.25rem 0.5rem;
+}
+th {
+  background-color: #ddd;
+}
+table > caption {
+  width: fit-content;
+  margin: auto;
+  border: 1px solid #999;
+  border-bottom: none;
+  background-color: #ddd;
+  padding: 0.25rem 0.5rem 0.13rem 0.5rem;
+}
+
+fieldset {
+    padding: 0.5rem;
+}
+button, input[type=submit], input[type=reset], input[type=button] {
+    padding: 0.125rem 0.5rem;
+}
+dt {
+    font-style: italic;
+}
+dd {
     margin-left: 0.25rem;
-} */
+}
+dd::before {
+    content: '↳ ';
+}
+blockquote {
+    border-left: 3px solid #bbb;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+}
+summary {
+    display: inline-block;
+}
+details {
+    background: #ddd;
+    width: fit-content;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #bbb;
+}
+details:open summary {
+    display: block;
+    margin-bottom: 1rem;
+}
+details summary::before {
+    content: '📕 ';
+}
+details:open summary::before {
+    content: '📖 ';
+}
+
+form, pre, fieldset,h1,h2,h3,h4,h5,h6,.dialog-heading,footer,nav {
+  margin: 1rem 0;
+}
+h1 {
+  margin-top: 0;
+}
+
+pre {
+    border: 1px solid #777;
+    border-left-style: double;
+    border-left-width: 6px;
+    border-right-style: double;
+    border-right-width: 6px;
+    background-color: #ccc;
+    padding: 0.5rem 1rem;
+    font-size: small;
+}
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+dialog {
+  position: fixed;
+  margin: auto;
+  padding: 1rem 2rem;
+}
+dialog::backdrop {
+  /* background-color: rgba(0, 0, 0, 0.75); */
+  backdrop-filter: blur(2px);
+}
+
+code,kbd,samp {
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  background: #fff;
+  padding: 0.13rem 0.25rem;
+}
+samp {
+  color: #006;
+  border-color: #00a;
+}
+samp::before {
+  content: ">";
+  color: #006;
+  font-size: x-small;
+  margin-right: 0.5rem;
+}
+kbd {
+  color: #060;
+  border-color: #0a0;
+}
+kbd::before {
+  content: "$";
+  color: #060;
+  font-size: x-small;
+  margin-right: 0.5rem;
+}
+del {
+  color: #b22;
+}
+ins {
+  color: #464;
+  text-decoration: none;
+}
+var {
+  color: #a00;
+}
+meter,progress {
+  width: 5em;
+}
+a.external::after {
+  content: '🌏 ';
+  text-decoration: none;
+  font-size: x-small;
+  vertical-align: super;
+}
+a.safe::after {
+  content: '✅ ';
+  text-decoration: none;
+  font-size: x-small;
+  vertical-align: super;
+}
+a.unsafe::after {
+  content: '⚠️ ';
+  text-decoration: none;
+  font-size: x-small;
+  vertical-align: super;
+}
+select {
+  padding: 0.25rem 0.5rem;
+}
+input, textarea {
+  padding: 0.13rem 0.25rem;
+}
+
+abbr {
+  text-decoration: dotted black 2px underline;
+}
+time::before {
+  content: "🗓️ ";
+}
+dialog {
+  border: 2px solid #333;
+  border-top: 6px double #333;
+  box-shadow: 0 0 12px #333;
+}
+p.padBottom {
+  margin-bottom: 1rem;
+}

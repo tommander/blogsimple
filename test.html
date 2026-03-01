@@ -1,33 +1,569 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cs-CZ">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fonts.css">
     <link rel="stylesheet" href="style.css">
     <title>Blog</title>
 </head>
+
 <body>
     <div id="container">
-        <header><span>✒️ Blog</span></header>
+        <!-- <dialog closedby="any" open>
+            <form method="dialog">
+                <div class="dialog-heading">Privacy Policy</div>
+                <p class="padBottom">Because of law <em>blah blah</em> we need your informed voluntary fair etc. consent here.</p>
+                <label for="PRIVACY">
+                    <input type="checkbox" name="privacy" id="PRIVACY" checked>
+                    I approve of full scan of my device. We can copy any data and use it as we want. <abbr
+                        title="Personally Identifiable Information">PII</abbr> <em>especially</em> included.
+                </label><br><br>
+                <button type="submit">CLICK HERE!</button>
+            </form>
+        </dialog> -->
+        <header><span>Blog</span></header>
         <nav>
             <menu>
                 <li><a class="post" href="posts/index.html">Příspěvky</a></li>
-                <li><a class="page" href="pages/software.html">Software</a></li>
-                <li><a class="page" href="pages/gallery.html">Galerie</a></li>
                 <li><a class="page" href="pages/about.html">O mně</a></li>
             </menu>
         </nav>
-        <hr>
         <main>
-            <article>
-                <h1>Blog</h1>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque, repudiandae enim ea dolores eligendi dolorum laborum eaque eum rem, atque beatae, saepe itaque ullam. Consequuntur dolorum minima tenetur excepturi. Voluptas.</p>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae non est amet rem deleniti. Labore temporibus culpa dolorum possimus corrupti explicabo voluptates odio, provident quae!</p>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas consectetur earum similique adipisci dolor, vel laboriosam necessitatibus quis, odio itaque cum! Tenetur, nobis. Mollitia autem aperiam ducimus libero vel doloribus odio vitae. Pariatur repellendus eum blanditiis laboriosam, fugit quidem at autem sed recusandae sunt facilis sit ab debitis, non nemo quo corrupti amet sint ea doloremque esse. Architecto sed quas aperiam, vero voluptatibus praesentium, sunt quam nisi odit unde temporibus, non quidem impedit dolorem fuga maiores earum reiciendis quis dolore!</p>
-            </article>
+            <h1>Test</h1>
+            <embed src="pages/about.html" type="text/html">
+            <object data="pages/about.html" type="text/html"></object>
+            <h2>Inline elements</h2>
+            <table>
+                <tr>
+                    <td><a>a-nohref</a></td>
+                    <td></td>
+                </tr>
+                <!--
+                100 - Thin
+                200 - Extra Light
+                300 - Light
+                400 - Regular/Normal
+                500 - Medium
+                600 - Semi bold
+                700 - Bold
+                800 - Extra Bold
+                900 - Black
+                -->
+                <tr>
+                    <td><a href="http://example.com">a-href</a></td>
+                    <td>
+                        <a href="http://example.com">a-href</a><br>
+                        <a class="external" href="http://example.com">a-href</a><br>
+                        <a class="safe" href="http://example.com">a-href</a><br>
+                        <a class="unsafe" href="http://example.com">a-href</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td><abbr title="abbreviation">abbr</abbr></td>
+                    <td></td>
+                </tr>
+                <!-- Bibbidi-Bobbidi-Boo -->
+                <tr>
+                    <td><b>b</b></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><bdi>bdi</bdi></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><bdo dir="rtl">bdo</bdo></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><button>button</button></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><cite>cite</cite></td>
+                    <td><cite>Equal Rites</cite></td>
+                </tr>
+                <tr>
+                    <td><code>code</code></td>
+                    <td>Code: <code>$n = $x ? $a : $b</code></td>
+                </tr>
+                <tr>
+                    <td><data value="8593539033981" title="Koh-i-noor Hardtmuth Kombinovaná stěrací pryž">data</data>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><del>del</del><ins>ins</ins></td>
+                    <td>This device is <del>working fine</del> <ins>throwing tantrums</ins>.</td>
+                </tr>
+                <tr>
+                    <td><dfn>dfn</dfn></td>
+                    <td>Target by a: <dfn id="some-def"><abbr title="Some Definition">some-def</abbr></dfn></td>
+                </tr>
+                <tr>
+                    <td><em>em</em></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><i>i</i></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><kbd>kbd</kbd></td>
+                    <td>User input: <kbd>rm -rf /</kbd></td>
+                </tr>
+                <tr>
+                    <td><mark>mark</mark></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><meter value="42" min="0" low="25" optimum="40" high="80" max="100">meter</meter></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><progress value="64" max="110">progress</progress></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><q>q</q></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><s>s</s></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><samp>samp</samp></td>
+                    <td>Sample program output: <samp>Error: file not found.</samp></td>
+                </tr>
+                <tr>
+                    <td><small>small</small></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>strong</strong></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>x<sub>sub</sub></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>x<sup>sup</sup></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><u>u</u></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><var>var</var></td>
+                    <td>Math variable: <var>m<sub>z</sub></var><br>Prog variable: <var>intIndex</var></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026">2026</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-W16">2026-W16</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12">2026-12</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31">2026-12-31</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="12-31">12-31</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="12:34">12:34</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="12:34:56">12:34:56</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="12:34:56.123">12:34:56.123</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31 12:34">2026-12-31 12:34</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31 12:34:56">2026-12-31 12:34:56</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31 12:34:56.123">2026-12-31 12:34:56.123</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31T12:34">2026-12-31T12:34</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31T12:34:56">2026-12-31T12:34:56</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31T12:34:56.123">2026-12-31T12:34:56.123</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31 12:34Z">2026-12-31 12:34Z</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31 12:34+0200">2026-12-31 12:34+0200</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><time datetime="2026-12-31T12:34+02:00">2026-12-31T12:34+02:00</time></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Limonadenst&auml;nde<wbr>bau<wbr>privat<wbr>finanzierugs<wbr>gesetz</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Limonadenst&auml;nde&shy;bau&shy;privat&shy;finanzierugs&shy;gesetz</td>
+                    <td></td>
+                </tr>
+            </table>
+            <h2>Normal text flow</h2>
+            <hgroup>
+                <h1>Heading 1</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+            </hgroup>
+            <hgroup>
+                <h2>Heading 2</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+            </hgroup>
+            <hgroup>
+                <h3>Heading 3</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+            </hgroup>
+            <hgroup>
+                <h4>Heading 4</h4>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+            </hgroup>
+            <hgroup>
+                <h5>Heading 5</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+            </hgroup>
+            <hgroup>
+                <h6>Heading 6</h6>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum quis accusamus odio? Maxime, vero.
+                    Placeat eius in laudantium labore mollitia ad asperiores ex aspernatur voluptatibus temporibus
+                    voluptatum nisi modi error distinctio nihil perferendis, deleniti minima itaque odio. Temporibus
+                    quam distinctio pariatur minus consequatur numquam ad repudiandae quo sequi sit, veritatis quaerat
+                    quibusdam voluptatibus praesentium explicabo. Eos placeat hic eaque molestias.</p>
+            </hgroup>
+            <h2>Form</h2>
+            <form>
+                <fieldset>
+                    <legend>Legend for fieldset</legend>
+                    <label for="F_CHB"><input type="checkbox" id="F_CHB" name="" value=""> Checkbox</label><br><br>
+                    <label for="F_CLR">Color</label><br>
+                    <input type="color" id="F_CLR" name="" value=""><br><br>
+                    <label for="F_DAT">Date</label><br>
+                    <input type="date" id="F_DAT" name="" value=""><br><br>
+                    <label for="F_DTL">Datetime-local</label><br>
+                    <input type="datetime-local" id="F_DTL" name="" value=""><br><br>
+                    <label for="F_EML">Email</label><br>
+                    <input type="email" id="F_EML" name="" value=""><br><br>
+                    <label for="F_FIL">File</label><br>
+                    <input type="file" id="F_FIL" name="" value=""><br><br>
+                    <label for="F_IMG">Image</label><br>
+                    <input type="image" id="F_IMG" name="" value=""><br><br>
+                    <label for="F_MON">Month</label><br>
+                    <input type="month" id="F_MON" name="" value=""><br><br>
+                    <label for="F_NUM">Number</label><br>
+                    <input type="number" id="F_NUM" name="" value=""><br><br>
+                    <label for="F_PWD">Password</label><br>
+                    <input type="password" id="F_PWD" name="" value=""><br><br>
+                    <label for="F_RDO"><input type="radio" id="F_RDO" name="" value=""> Radio</label><br><br>
+                    <label for="F_RNG">Range</label><br>
+                    <input type="range" id="F_RNG" name="" value=""><br><br>
+                    <label for="F_SRC">Search</label><br>
+                    <input type="search" id="F_SRC" name="" value=""><br><br>
+                    <label for="F_TEL">Telephone</label><br>
+                    <input type="tel" id="F_TEL" name="" value=""><br><br>
+                    <label for="F_TXT">Text</label><br>
+                    <input type="text" id="F_TXT" name="" value=""><br><br>
+                    <label for="F_TIM">Time</label><br>
+                    <input type="time" id="F_TIM" name="" value=""><br><br>
+                    <label for="F_URL">URL</label><br>
+                    <input type="url" id="F_URL" name="" value=""><br><br>
+                    <label for="F_WEEK">Week</label><br>
+                    <input type="week" id="F_WEEK" name="" value=""><br><br>
+                    <label for="F_SEL">Select</label><br>
+                    <select name="" id="F_SEL">
+                        <option value="">None</option>
+                        <optgroup>
+                            <legend>1.*</legend>
+                            <option value="1.1">1.1</option>
+                            <option value="1.2">1.2</option>
+                        </optgroup>
+                        <option value="2.0">2.0</option>
+                    </select><br><br>
+                    <label for="F_SEL">Select</label><br>
+                    <select name="" id="F_SEL">
+                        <option value="">None</option>
+                        <optgroup>
+                            <legend>1.*</legend>
+                            <option value="1.1">1.1</option>
+                            <option value="1.2">1.2</option>
+                        </optgroup>
+                        <option value="2.0">2.0</option>
+                    </select><br><br>
+
+                    <label for="F_TAR">Textarea</label><br>
+                    <textarea>Textarea</textarea><br><br>
+                    <output name="">Output</output><br><br>
+                    <input type="button" id="F_BTN" name="" value="Button"><br>
+                    <input type="reset" id="F_RST" name="" value="Reset"><br>
+                    <input type="submit" id="F_SBM" name="" value="Submit">
+                </fieldset>
+            </form>
+            <h2>Small block elements</h2>
+            <h3>Address</h3>
+            <address>
+                Contact:<br>
+                <a href="mailto:joe@limonada.cz">joe@limonada.cz</a><br>
+                <a href="tel:+420602123456">+420 602 123 456</a>
+            </address>
+            <h3>Blockquote</h3>
+            <blockquote cite="http://example.com">
+                <p>'Tis my most visited site this year.</p>
+            </blockquote>
+            <h3>Datalist</h3>
+            <dl>
+                <dt>Term</dt>
+                <dd>Description</dd>
+            </dl>
+            <h3>Details</h3>
+            <details>
+                <summary>Click here to see a secret</summary>
+                Current browser are <em>not</em> able to correctly render octarine colour. Look: <span
+                    style="color: octarine">✭</span>
+            </details>
+            <h3>Lists</h3>
+            <ul>
+                <li>1</li>
+                <li>2
+                    <ul>
+                        <li>2.1</li>
+                        <li>2.2</li>
+                    </ul>
+                </li>
+                <li>3</li>
+            </ul>
+            <ol>
+                <li>1</li>
+                <li>2
+                    <ol>
+                        <li>2.1</li>
+                        <li>2.2</li>
+                    </ol>
+                </li>
+                <li>3</li>
+            </ol>
+            <menu>
+                <li>1</li>
+                <li>2
+                    <menu>
+                        <li>2.1</li>
+                        <li>2.2</li>
+                    </menu>
+                </li>
+                <li>3</li>
+            </menu>
+            <h3>Pre</h3>
+            <pre>PRE. Pohanime vase sny.</pre>
+            <h3>Ruby</h3>
+            <ruby> 漢 <rp>(</rp>
+                <rt>kan</rt>
+                <rp>)</rp> 字 <rp>(</rp>
+                <rt>ji</rt>
+                <rp>)</rp>
+            </ruby>
+            <h2>Big block elements</h2>
+            <h3>Table</h3>
+            <table>
+                <caption>This is a table</caption>
+                <colgroup>
+                    <col />
+                    <col span="2" class="someclass">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">Col 1</th>
+                        <th scope="col">Col 2.1</th>
+                        <th scope="col">Col 2.2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Hello</th>
+                        <td>World</td>
+                        <td>Universe</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th scope="row">Total</th>
+                        <td colspan="2">1&nbsp;234,56 Kc</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <h3>Map</h3>
+            <map name="mapka">
+                <area shape="rect" coords="30,30,50,50" href="http://example/rect.html">
+                <area shape="circle" coords="80,80,50" href="http://example/circle.html">
+                <area shape="poly" coords="30,30,50,50,30,50,50,30" href="http://example/poly.html">
+            </map>
+            <img usemap="#mapka"
+                src="https://images.unsplash.com/photo-1717343824623-06293a62a70d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fG1hcHxlbnwwfHwwfHx8MA%3D%3D"
+                alt="">
+            <h3>Iframe</h3>
+            <iframe>Iframe</iframe>
+            <h3>Dialog</h3>
+            <h3>Embed</h3>
+            <embed
+                src="https://images.unsplash.com/photo-1771241222039-facdf3435d73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyN3x8fGVufDB8fHx8fA%3D%3D"
+                type="image/jpeg">
+            <h3>Object</h3>
+            <object
+                data="https://images.unsplash.com/photo-1771241222039-facdf3435d73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyN3x8fGVufDB8fHx8fA%3D%3D"
+                type="image/jpeg"></object>
+            <h3>Figure Audio</h3>
+            <figure>
+                <figcaption>Figcaption Figure Audio</figcaption>
+                <audio src="https://commons.wikimedia.org/wiki/File:TheRemixLab_track1.ogg">
+                    <source>
+                    <track>
+                    </track>
+                </audio>
+            </figure>
+            <h3>Figure Video</h3>
+            <figure>
+                <figcaption>Figcaption Figure Video</figcaption>
+                <video controls width="320" height="200">
+                    <source src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Google_Timelapse-_Dresden%2C_Germany.webm" type="video/webm">
+                    <track
+                        default
+                        kind="captions"
+                        srclang="cs-CZ"
+                        label="Cesky"
+                        src="kalibrace.vtt"
+                    />
+                </video>
+            </figure>
+            <h3>Figure Image</h3>
+            <figure>
+                <figcaption>Figcaption Figure Img</figcaption>
+                <img src="https://images.unsplash.com/photo-1771241222039-facdf3435d73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyN3x8fGVufDB8fHx8fA%3D%3D"
+                    alt="">
+            </figure>
+            <h3>Image</h3>
+            <img src="https://images.unsplash.com/photo-1771241222039-facdf3435d73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyN3x8fGVufDB8fHx8fA%3D%3D"
+                alt="">
+            <h3>Picture</h3>
+            <picture>
+                <!-- <source>
+                <source> -->
+                <img src="https://images.unsplash.com/photo-1771241222039-facdf3435d73?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyN3x8fGVufDB8fHx8fA%3D%3D"
+                    alt="">
+            </picture>
+
+            <noscript>No Script <p>Totally</p></noscript>
+            <script>alert('Vypnete si JS');</script>
+            <!--
+<head>
+<html>
+<body>
+<base>
+<meta>
+<link>
+<title>
+<header>
+<nav>
+<footer>
+<article>
+<aside>
+<section>
+<main>
+<search>
+<div>
+<span>
+<style>
+<canvas>
+<datalist>
+ -->
         </main>
         <hr>
         <footer>&copy; 2026 Já. </footer>
     </div>
 </body>
+
 </html>

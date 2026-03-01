@@ -1,0 +1,294 @@
+@font-face {
+    font-family: 'AvrileSerifBlack';
+        src: url('fonts/AvrileSerif-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'AvrileSerifBlackItalic';
+        src: url('fonts/AvrileSerif-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifExtraBold';
+        src: url('fonts/AvrileSerif-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'AvrileSerifExtraBoldItalic';
+        src: url('fonts/AvrileSerif-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifBold';
+        src: url('fonts/AvrileSerif-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'AvrileSerifBoldItalic';
+        src: url('fonts/AvrileSerif-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifSemiBold';
+        src: url('fonts/AvrileSerif-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'AvrileSerifSemiBoldItalic';
+        src: url('fonts/AvrileSerif-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifMedium';
+        src: url('fonts/AvrileSerif-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'AvrileSerifMediumItalic';
+        src: url('fonts/AvrileSerif-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifRegular';
+        src: url('fonts/AvrileSerif-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'AvrileSerifItalic';
+        src: url('fonts/AvrileSerif-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifLight';
+        src: url('fonts/AvrileSerif-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'AvrileSerifLightItalic';
+        src: url('fonts/AvrileSerif-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifExtraLight';
+        src: url('fonts/AvrileSerif-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'AvrileSerifExtraLightItalic';
+        src: url('fonts/AvrileSerif-ExtraLightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'AvrileSerifThin';
+        src: url('fonts/AvrileSerif-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'AvrileSerifThinItalic';
+        src: url('fonts/AvrileSerif-ThinItalic.ttf') format('truetype');
+    font-weight: 100;
+    font-style: italic;
+      }
+
+
+
+
+@font-face {
+    font-family: 'DidactGothic';
+        src: url('fonts/DidactGothic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'Cantora';
+        src: url('fonts/CantoraOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'SomeTimeLater';
+        src: url('fonts/Some-Time-Later.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'Sansita';
+        src: url('fonts/Some-Time-Later.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'SansitaBlack';
+        src: url('fonts/Sansita-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SansitaBlackItalic';
+        src: url('fonts/Sansita-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SansitaExtraBold';
+        src: url('fonts/Sansita-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SansitaExtraBoldItalic';
+        src: url('fonts/Sansita-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SansitaBold';
+        src: url('fonts/Sansita-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SansitaBoldItalic';
+        src: url('fonts/Sansita-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SansitaRegular';
+        src: url('fonts/Sansita-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SansitaItalic';
+        src: url('fonts/Sansita-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+      }
+
+
+
+
+    @font-face {
+    font-family: 'SourceCodeProBlack';
+        src: url('fonts/SourceCodePro-Black.ttf.woff2');
+    font-weight: 900;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SourceCodeProBlackItalic';
+        src: url('fonts/SourceCodePro-BlackIt.ttf.woff2');
+    font-weight: 900;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SourceCodeProBold';
+        src: url('fonts/SourceCodePro-Bold.ttf.woff2');
+    font-weight: 700;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SourceCodeProBoldItalic';
+        src: url('fonts/SourceCodePro-BoldIt.ttf.woff2');
+    font-weight: 700;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SourceCodeProSemibold';
+        src: url('fonts/SourceCodePro-SemiBold.ttf.woff2');
+    font-weight: 600;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SourceCodeProSemiboldItalic';
+        src: url('fonts/SourceCodePro-SemiboldIt.ttf.woff2');
+    font-weight: 600;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SourceCodeProMedium';
+        src: url('fonts/SourceCodePro-Medium.ttf.woff2');
+    font-weight: 500;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SourceCodeProMediumItalic';
+        src: url('fonts/SourceCodePro-MediumIt.ttf.woff2');
+    font-weight: 500;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SourceCodeProRegular';
+        src: url('fonts/SourceCodePro-Regular.ttf.woff2');
+    font-weight: 400;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'SourceCodeProItalic';
+        src: url('fonts/SourceCodePro-It.ttf.woff2');
+    font-weight: 400;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SourceCodeProLight';
+        src: url('fonts/SourceCodePro-Light.ttf.woff2');
+    font-weight: 300;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'SourceCodeProLightItalic';
+        src: url('fonts/SourceCodePro-LightIt.ttf.woff2');
+    font-weight: 300;
+    font-style: italic;
+      }
+@font-face {
+    font-family: 'SourceCodeProExtraLight';
+        src: url('fonts/SourceCodePro-ExtraLight.ttf.woff2');
+    font-weight: 200;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'SourceCodeProExtraLightItalic';
+        src: url('fonts/SourceCodePro-ExtraLightIt.ttf.woff2');
+    font-weight: 200;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'SnigletExtraBold';
+        src: url('fonts/Sniglet-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+      }
+@font-face {
+    font-family: 'Sniglet';
+        src: url('fonts/Sniglet-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+      }
