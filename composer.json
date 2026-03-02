@@ -1,0 +1,27 @@
+{
+    "name": "tommander/blogsimple",
+    "description": "blogsimple",
+    "license": "CC0-1.0",
+    "authors": [
+        {
+            "name": "tommander",
+            "email": "8601794+tommander@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "league/commonmark": "^2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tommander\\BlogSimple\\": "src/"
+        }
+    },
+    "scripts": {
+        "self:check": "composer validate --strict",
+        "php:lint": "php -l src/*.php *.php",
+        "qa": [
+            "@self:check",
+            "@php:lint"
+        ]
+    }
+}

@@ -56,9 +56,11 @@ label,legend,figcaption,caption,nav {
 h1,h2,h3,h4,h5,h6,.dialog-heading {
     font-family: "Cantora", sans-serif;
 }
-header > span {
+header > a {
   font-family: 'Averia', cursive;
-  font-size: xx-large;
+  font-size: xxx-large;
+  text-decoration: none;
+  color: #333;
   /* padding: 0.5rem 1rem; */
 }
 
@@ -99,10 +101,16 @@ nav > menu li > a::before {
     content: '🌏 ';
 }
 nav > menu li > a.post::before {
-    content: '🗞️ ';
+    content: '📚 ';
 }
 nav > menu li > a.page::before {
-    content: '📚 ';
+    content: '📄 ';
+}
+nav > menu li > a.archive::before {
+    content: '📰 ';
+}
+nav > menu li > a.home::before {
+  content: '🏡 ';
 }
 nav > menu li > a,
 nav > menu li > a:any-link
@@ -129,6 +137,7 @@ hr.medium {
 }
 main {
     margin: 1rem;
+    overflow: auto;
 }
 /* footer {
 } */
@@ -136,6 +145,10 @@ main {
 /* ========================= */
 ul,ol,menu {
   margin-left: 1em;
+}
+:not(ul) ul {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 h1 {
     font-size: xx-large;
@@ -163,14 +176,12 @@ h6 {
 }
 
 p {
-  text-indent: 30px;
   line-height: 1.33;
-}
-p:first-of-type:not(.do-indent) {
-  text-indent: 0px;
+  margin: 1em 0;
 }
 table {
   border-collapse: collapse;
+  margin: 1em 0;
 }
 th,td {
   border: 1px solid #999;
@@ -211,20 +222,32 @@ summary {
     display: inline-block;
 }
 details {
-    background: #ddd;
-    width: fit-content;
     padding: 0.25rem 0.5rem;
+}
+details.fit {
+    width: fit-content;
+}
+details.themed {
+    background: #ddd;
     border: 1px solid #bbb;
 }
 details:open summary {
     display: block;
     margin-bottom: 1rem;
 }
-details summary::before {
+details.icon summary::before {
     content: '📕 ';
 }
-details:open summary::before {
+details.icon:open summary::before {
     content: '📖 ';
+}
+details.buttoned summary {
+  display: inline-block;
+  border: 1px solid #777;
+  background-color: #ccc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: medium;
 }
 
 form, pre, fieldset,h1,h2,h3,h4,h5,h6,.dialog-heading,footer,nav {
@@ -257,7 +280,10 @@ dialog::backdrop {
   backdrop-filter: blur(2px);
 }
 
-code,kbd,samp {
+code {
+
+}
+kbd,samp {
   border: 1px solid #bbb;
   border-radius: 4px;
   background: #fff;
@@ -334,4 +360,29 @@ dialog {
 }
 p.padBottom {
   margin-bottom: 1rem;
+}
+.postcard {
+  border: 1px solid #ccc;
+  margin: 1rem 0;
+  padding: 0.5rem 0.75rem;
+}
+.postcard-meta {
+  margin-bottom: 0.5rem;
+}
+.postcard-title {
+  font-size: large;
+}
+
+img[alt$="Vertical image on right."] {
+  float: right;
+  max-height: 256px;
+  max-width: 128px;
+  margin: 1rem 2rem 1rem 1rem;
+}
+
+img[alt$="Vertical image on left."] {
+  float: left;
+  max-height: 256px;
+  max-width: 128px;
+  margin: 1rem 1rem 1rem 2rem;
 }
