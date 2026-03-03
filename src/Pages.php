@@ -8,14 +8,47 @@ class Pages
 {
     /** @var array<non-empty-string, array{name: string, url: string, path: string, title: string, mdate: int}> */
     public private(set) array $pages = [];
+    private bool $refreshed = false;
 
     public static function pageUrl(string $name): string
     {
         return Main::homeUrl(['page' => $name]);
     }
 
+    public function getPage(string $name): array
+    {
+        if (!isset($this->pages[$name])) {
+            return [];
+        }
+        return $this->pages[$name];
+    }
+
+    public function listPages(bool $html): string
+    {
+        $this->refreshPages();
+        $res = '';
+        foreach ($this->pages as $name => $data) {
+            if ($name === 'home') {
+                continue;
+            }
+            $res .= sprintf(
+                $html ? "<li><a class=\"page\" href=\"%2\$s\">%1\$s</a></li>\n" : "- [%1\$s](%2\$s)\n",
+                $data['title'],
+                $data['url']
+            );
+        }
+        return $res;
+    }
+
+
+
     public function refreshPages(): void
     {
+        if ($this->refreshed) {
+            return;
+        }
+        $this->refreshed = true;
+
         $lst = scandir(__DIR__ . '/../pages/', SCANDIR_SORT_NONE);
         if (!is_array($lst)) {
             $lst = [];

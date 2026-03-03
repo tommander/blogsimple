@@ -18,6 +18,14 @@ class Posts
     /** @var array<non-empty-string, array{name: string, url: string, path: string, title: string, mdate: int, excerpt: string}> */
     public private(set) array $posts = [];
 
+    public function getPost(string $name): array
+    {
+        if (!isset($this->posts[$name])) {
+            return [];
+        }
+        return $this->posts[$name];
+    }
+
     public static function postcard(string $url, string $title, string $excerpt, int $mdate): string
     {
         return sprintf(
@@ -25,7 +33,7 @@ class Posts
             $url,
             $title,
             date('d.m.Y H:i:s', $mdate),
-            static::niceInterval(time() - ((int) $mdate)),
+            Helper::niceInterval(time() - ((int) $mdate)),
             $excerpt,
         );
     }
@@ -45,76 +53,27 @@ class Posts
         return Main::homeUrl(['post' => $name]);
     }
 
-    public static function niceInterval(int $seconds): string
-    {
-        $prepend = (($seconds < 0) ? '-' : '');
-        ($seconds < 0) && ($seconds *= -1);
-            $text = match (true) {
-                $seconds < 60 => sprintf('%d s', $seconds),
-                $seconds < 3600 => sprintf('%.0f min', intdiv($seconds, 60)),
-                $seconds < 86400 => sprintf('%.0f hod', intdiv($seconds, 3600)),
-                $seconds < (2*86400) => '1 den',
-                $seconds < (5*86400) => sprintf('%.0f dny', intdiv($seconds, 86400)),
-                $seconds >= (5*86400) => sprintf('%.0f dni', intdiv($seconds, 86400)),
-            };
-        return $prepend . $text;
-    }
-
-    public static function niceIntervalNs(int $nanoseconds): string
-    {
-        $oneMicrosecond = 1000;
-        $oneMillisecond = 1000000;
-        $oneSecond = 1000000000;
-        $prepend = (($nanoseconds < 0) ? '-' : '');
-        ($nanoseconds < 0) && ($nanoseconds *= -1);
-            $text = match (true) {
-                $nanoseconds < $oneMicrosecond => sprintf('%d ns', $nanoseconds),
-                $nanoseconds < $oneMillisecond => sprintf('%d μs', intdiv($nanoseconds, $oneMicrosecond)),
-                $nanoseconds < $oneSecond => sprintf('%d ms', intdiv($nanoseconds, $oneMillisecond)),
-                $nanoseconds < (60 * $oneSecond) => sprintf('%d s', intdiv($nanoseconds, $oneSecond)),
-                $nanoseconds < (3600 * $oneSecond) => sprintf('%.0f min', intdiv($nanoseconds, 60 * $oneSecond)),
-                $nanoseconds < (86400 * $oneSecond) => sprintf('%.0f hod', intdiv($nanoseconds, 3600 * $oneSecond)),
-                $nanoseconds < (2*86400 * $oneSecond) => '1 den',
-                $nanoseconds < (5*86400 * $oneSecond) => sprintf('%.0f dny', intdiv($nanoseconds, 86400 * $oneSecond)),
-                $nanoseconds >= (5*86400 * $oneSecond) => sprintf('%.0f dni', intdiv($nanoseconds, 86400 * $oneSecond)),
-            };
-        return 'Render time (backend): ' . $prepend . $text;
-    }
-
     public function last5(): string
     {
         $res = '';
-        reset($this->posts);
-        $i = 0;
-        while ($i < 5) {
-            // $name = key($this->posts->posts);
-            // $data = current($this->posts);
-            // $html = 
-            // $html = sprintf(
-            //     Posts::POSTCARD,
-            //     $data['url'], // 1 = url
-            //     $data['title'],// 2 = title
-            //     date('d.m.Y H:i:s', ),// 3 = date('',mdate)
-            //     Posts::niceInterval(time() - $data['mdate']),// 4 = interval
-            //     $data['excerpt'],// 5 = excerpt
-            // );
-            $data = current($this->posts);
-            $res .= static::postcard(
-                $data['url'],
-                $data['title'],
-                $data['excerpt'],
-                $data['mdate']
-            );
-            $i++;
-            $next = next($this->posts);
-            if ($next === false) {
+        $keys = array_keys($this->posts);
+        for ($i = 0; $i < 5; $i++) {
+            if ($i >= count($keys)) {
                 break;
             }
+            $data = $this->posts[$keys[$i]];
+            if (!is_array($data)) {
+                continue;
+            }
+            $res .= static::postcard(
+                $data['url'] ?? 'http://example.com',
+                $data['title'] ?? 'Default Title',
+                $data['excerpt'] ?? 'Default Excerpt',
+                $data['mdate'] ?? time(),
+            );
         }
         return $res;
     }
-
-
 
     public function refreshPosts(): void
     {
@@ -156,8 +115,8 @@ class Posts
     {
         $res = '';
         $res .= match (true) {
-            $includeCurrent && !$includeArchive => sprintf('<h2>Příspěvky</h2><p><a href="%1$s">Prispevky starsi nez %2$s</a></p>', $this->postArchiveUrl(), static::niceInterval(static::ARCHIVE_DURATION)),
-            !$includeCurrent && $includeArchive => sprintf('<h2>Archiv</h2><p><a href="%1$s">Prispevky novejsi nez %2$s</a></p>', $this->postListUrl(), static::niceInterval(static::ARCHIVE_DURATION)),
+            $includeCurrent && !$includeArchive => sprintf('<h2>Příspěvky</h2><p><a href="%1$s">Prispevky starsi nez %2$s</a></p>', $this->postArchiveUrl(), Helper::niceInterval(static::ARCHIVE_DURATION)),
+            !$includeCurrent && $includeArchive => sprintf('<h2>Archiv</h2><p><a href="%1$s">Prispevky novejsi nez %2$s</a></p>', $this->postListUrl(), Helper::niceInterval(static::ARCHIVE_DURATION)),
             $includeCurrent && $includeArchive => '<h2>Všechny příspěvky</h2>',
             default => '<h2>Nějaká chyba</h2>',
         };
@@ -168,11 +127,6 @@ class Posts
             if (($isArchive && !$includeArchive) || (!$isArchive && !$includeCurrent)) {
                 continue;
             }
-            // $intvlText = static::niceInterval($seconds);
-            // $content = file_get_contents($data['path']);
-            // if (!is_string($content)) {
-            //     $content = '<p>Missing file/content. <details><summary>Details</summary><pre>' . htmlspecialchars($data['path']) . '</pre></details></p>';
-            // }
 
             $res .= static::postcard(
                 $this->postUrl($name),
@@ -180,16 +134,6 @@ class Posts
                 $data['excerpt'],
                 $data['mdate']
             );
-            // $html = sprintf(
-            //     static::POSTCARD,
-            //     $this->postUrl($name), // 1 = url
-            //     $data['title'],// 2 = title
-            //     date('d.m.Y H:i:s', $data['mdate']),// 3 = date('',mdate)
-            //     $intvlText,// 4 = interval
-            //     $data['excerpt'],// 5 = excerpt
-            // );
-
-            // $res .= $html;
         }
 
         return $res;

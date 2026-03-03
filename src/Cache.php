@@ -12,21 +12,37 @@ class Cache
     public private(set) int $cacheWrite = 0;
     public private(set) int $misses = 0;
     public private(set) int $ioRead = 0;
-    /** @var array<string, int> */
-    public private(set) array $data = [];
+
+    public static function cacheSize(): int
+    {
+        $list = scandir(__DIR__ . '/../cache/', SCANDIR_SORT_NONE);
+        $total = 0;
+        foreach ($list as $file) {
+            if (in_array($file, ['.', '..'])) {
+                continue;
+            }
+            $path = __DIR__ . '/../cache/' . $file;
+            $size = filesize($path);
+            $total += $size;
+        }
+        return $total;
+    }
 
     public function get(string $relFilePath, callable $createValue): string
     {
-        $safeForFileName = fn (string $text) => preg_replace('/[^A-Za-z0-9_\.-]/', '', $text);
-        $cacheFile = __DIR__ . '/../cache/' . $safeForFileName($relFilePath);
+        $safeName = sprintf(
+            'cache_%1$s_%2$s.html',
+            trim(preg_replace('/_{2,}/', '_', preg_replace('/[^A-Za-z0-9_\.-]/', '_', $relFilePath)), '_'),
+            hash('md4', $relFilePath),
+        );
+        $cacheFile = __DIR__ . '/../cache/' . $safeName;
         $sourceFile = __DIR__ . "/../{$relFilePath}";
 
         if (
-            isset($this->data[$relFilePath]) &&
             file_exists($cacheFile) &&
             is_file($cacheFile) &&
             is_readable($cacheFile) &&
-            (time() - $this->data[$relFilePath]) < static::CACHE_TTL
+            (time() - filemtime($cacheFile)) < static::CACHE_TTL
         ) {
             $this->hits++;
             $content = (string) file_get_contents($cacheFile);
@@ -47,7 +63,6 @@ class Cache
         $this->ioRead += strlen($raw);
         $md = $createValue($raw);
         $this->cacheWrite += (int) file_put_contents($cacheFile, $md);
-        $this->data[$relFilePath] = time();
         return $md;
     }
 }
