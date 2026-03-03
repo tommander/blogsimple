@@ -6,34 +6,48 @@ namespace Tommander\BlogSimple;
 
 class Cache
 {
-    // public private(set) int $hits = 0;
-    // public private(set) int $misses = 0;
-    // /** @var array */
-    // public private(set) array $data = [];
+    public const CACHE_TTL = 60; // 60 s
+    public private(set) int $hits = 0;
+    public private(set) int $cacheRead = 0;
+    public private(set) int $cacheWrite = 0;
+    public private(set) int $misses = 0;
+    public private(set) int $ioRead = 0;
+    /** @var array<string, int> */
+    public private(set) array $data = [];
 
-    // private function safeForFileName(string $text): string
-    // {
+    public function get(string $relFilePath, callable $createValue): string
+    {
+        $safeForFileName = fn (string $text) => preg_replace('/[^A-Za-z0-9_\.-]/', '', $text);
+        $cacheFile = __DIR__ . '/../cache/' . $safeForFileName($relFilePath);
+        $sourceFile = __DIR__ . "/../{$relFilePath}";
 
-    // }
+        if (
+            isset($this->data[$relFilePath]) &&
+            file_exists($cacheFile) &&
+            is_file($cacheFile) &&
+            is_readable($cacheFile) &&
+            (time() - $this->data[$relFilePath]) < static::CACHE_TTL
+        ) {
+            $this->hits++;
+            $content = (string) file_get_contents($cacheFile);
+            $this->cacheRead += strlen($content);
+            return $content;
+        }
 
-    // public function get(string $relFilePath): string
-    // {
-    //     $cacheFile = __DIR__ . '/../cache/' . $this->safeForFileName($relFilePath);
-    //     // if (!file_exists($cacheFile))
-    // }
+        $this->misses++;
+        if (
+            !file_exists($sourceFile) ||
+            !is_file($sourceFile) ||
+            !is_readable($sourceFile)
+        ) {
+            return '';
+        }
 
-    // /**
-    //  * @param string $relFilePath Like "posts/2020-01-01.md"
-    //  */
-    // public function add(string $relFilePath)
-    // {
-    //     $raw = '';
-    //     $path = __DIR__ . '/' . $m->mdfile;
-    // if (file_exists($path) && is_readable($path)) {
-    //     $raw = (string) file_get_contents($path);
-    // }
-    // $toc = $m->toc();
-    // $raw = str_replace('%%TOC%%', $toc, $raw);
-    // echo (new League\CommonMark\GithubFlavoredMarkdownConverter())->convert($raw)->getContent();
-    // }
+        $raw = (string) file_get_contents($sourceFile);
+        $this->ioRead += strlen($raw);
+        $md = $createValue($raw);
+        $this->cacheWrite += (int) file_put_contents($cacheFile, $md);
+        $this->data[$relFilePath] = time();
+        return $md;
+    }
 }

@@ -3,3 +3,4 @@ fonts/*.otf
 fonts/*.woff2
 fonts/*.txt
 vendor/
+cache/*.md

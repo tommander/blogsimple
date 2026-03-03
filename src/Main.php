@@ -16,6 +16,7 @@ class Main
     public private(set) Pages $pages;
     public private(set) Posts $posts;
     public private(set) Errors $errors;
+    public private(set) Cache $cache;
 
     public private(set) string $subtitle = '';
     public private(set) string|null $urlquery = null;
@@ -30,6 +31,11 @@ class Main
 
         $this->posts = new Posts();
         $this->posts->refreshPosts();
+
+        $this->errors = new Errors();
+        $this->errors->refreshErrors();
+
+        $this->cache = new Cache();
 
         $post = $_GET['post'] ?? null;
         if (is_string($post) && !empty($post)) {
@@ -49,8 +55,10 @@ class Main
 
     public function setPage(string $name): void
     {
+        $data = $this->pages->pages[$name];
         $nameSafe = preg_replace('/[^A-Za-z0-9_-]/', '', $name);
-        $this->subtitle = $this->pages->pages[$name]['title'] ?? 'No Title';
+
+        $this->subtitle = $data['title'] ?? 'No Title';
         $this->urlquery = "page={$nameSafe}";
         $this->mdfile = "pages/{$nameSafe}.md";
         $this->content = null;
@@ -58,11 +66,31 @@ class Main
 
     public function setPost(string $name): void
     {
+        $data = ['title' => ''];
+        if (isset($this->posts->posts[$name])) {
+            $data = $this->posts->posts[$name];
+        }
+        if ($name === 'archive') {
+          $data['title'] = 'Archív';
+        }
+        if ($name === 'list') {
+          $data['title'] = 'Příspěvky';
+        }
         $nameSafe = preg_replace('/[^A-Za-z0-9_-]/', '', $name);
-        $this->subtitle = $this->pages->pages[$name]['title'] ?? 'No Title';
+        $this->subtitle = $data['title'] ?? 'No Title';
         $this->urlquery = "post={$nameSafe}";
         $this->mdfile = ($nameSafe === 'list' || $nameSafe === 'archive') ? null : "posts/{$nameSafe}.md";
         $this->content = ($nameSafe === 'list') ? $this->posts->postsList(true, false) : ($nameSafe === 'archive' ? $this->posts->postsList(false, true) : null);
+    }
+
+    public function htmltitle(): string
+    {
+        $right = htmlspecialchars($this->title);
+        $left = '';
+        if (is_string($this->subtitle) && !empty($this->subtitle)) {
+            $left = htmlspecialchars($this->subtitle) . ' | ';
+        }
+        return $left . $right;
     }
 
     public function setError(string $name): void
@@ -124,21 +152,29 @@ class Main
 
     public function renderMdFile(): void
     {
-        if (is_string($this->content)) {
-            echo $this->content;
-            return;
-        }
-    
-        $path = __DIR__ . '/../' . $this->mdfile;
-        if (!file_exists($path) || !is_file($path) || !is_readable($path)) {
-            echo 'WTF: ' . $path;
-            return;
-            // $raw = (string) file_get_contents($path);
-        }
-        
-        $raw = (string) file_get_contents($path);
-        $raw = str_replace('%%TOC%%', $this->toc(), $raw);
-        $raw = str_replace('%%LAST5%%', $this->posts->last5(), $raw);
-        echo (new \League\CommonMark\GithubFlavoredMarkdownConverter())->convert($raw)->getContent();
+        echo $this->cache->get($this->mdfile, function (string $raw) {
+            $raw = str_replace('%%TOC%%', $this->toc(), $raw);
+            $raw = str_replace('%%LAST5%%', $this->posts->last5(), $raw);
+            return (new \League\CommonMark\GithubFlavoredMarkdownConverter())->convert($raw)->getContent();
+        });
     }
+    // public function renderMdFile(): void
+    // {
+    //     if (is_string($this->content)) {
+    //         echo $this->content;
+    //         return;
+    //     }
+    
+    //     $path = __DIR__ . '/../' . $this->mdfile;
+    //     if (!file_exists($path) || !is_file($path) || !is_readable($path)) {
+    //         echo 'WTF: ' . $path;
+    //         return;
+    //         // $raw = (string) file_get_contents($path);
+    //     }
+        
+    //     $raw = (string) file_get_contents($path);
+    //     $raw = str_replace('%%TOC%%', $this->toc(), $raw);
+    //     $raw = str_replace('%%LAST5%%', $this->posts->last5(), $raw);
+    //     echo (new \League\CommonMark\GithubFlavoredMarkdownConverter())->convert($raw)->getContent();
+    // }
 }

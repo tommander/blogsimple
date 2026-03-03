@@ -58,7 +58,7 @@ Unordered with ordered:
 * List 2
 
 - [x] #739
-- [ ] https://github.com/octo-org/octo-repo/issues/740
+- [ ] http://example.com
 - [ ] Add delight to the experience when all tasks are complete :tada:
 
 Footnote?[^1]
@@ -106,9 +106,9 @@ $$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \
 ![Slunečnice od Todd Trapani@unsplash. Vertical image on left.](images/sunflowers.avif)
 
 <picture>
- <source media="(prefers-color-scheme: dark)" srcset="https://images.unsplash.com/photo-1565786122800-84e6b1fba1b3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHN1bmZsb3dlcnMlMjBkYXJrfGVufDB8fDB8fHww">
- <source media="(prefers-color-scheme: light)" srcset="https://images.unsplash.com/photo-1694090057748-3cc8ea8b9ca2?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
- <img alt="Slunecnice, ne asi" src="https://images.unsplash.com/photo-1757024532237-ee48504d6275?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHN1bm55JTIwc3VuZmxvd2VycyUyMGZpZWxkfGVufDB8fDB8fHwy">
+ <source media="(prefers-color-scheme: dark)" srcset="images/sunflowers.avif">
+ <source media="(prefers-color-scheme: light)" srcset="images/avatar-female.jpg">
+ <img alt="Slunecnice, ne asi" src="images/avatar-female.jpg">
 </picture>
 
 ![Slunečnice od Todd Trapani@unsplash. Vertical image on right.](images/sunflowers.avif)

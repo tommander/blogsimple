@@ -12,52 +12,24 @@ html {
 }
 body {
     background-color: #eee;
-    font-family: "AvrileSerifRegular", serif;
+    font-family: serif;
     font-size: large;
 }
-b,strong {
-  font-family: "AvrilSerifBold", serif;
-  font-weight: 700;
-}
-em,i,cite,dfn,var {
-  font-family: "AvrilSerifItalic", serif;
+/* em,i,cite,dfn,var {
   font-size: medium;
-}
+} */
 pre,code,kbd,samp {
-  font-family: "SourceCodeProRegular", monospace;
-  font-size: small;
-
-  em,i,cite,dfn,var {
-    font-family: "SourceCodeProItalic", serif;
-  
-    b,strong {
-      font-family: "SourceCodeProBoldItalic", serif;
-      font-weight: 700;
-    }
-  }
-
-  b,strong {
-    font-family: "AvrilSerifBold", serif;
-    font-weight: 700;
-
-    em,i,cite,dfn,var {
-      font-family: "SourceCodeProBoldItalic", serif;
-    }
-  }
+  font-family: monospace;
+  /* font-size: small; */
 }
 label,legend,figcaption,caption,nav {
-  font-family: "Cantora", sans-serif;
-
-  em,i,cite,dfn,var {
-    font-family: "Cantora", sans-serif;
-    font-style: italic;
-  }
+  font-family: sans-serif;
 }
 h1,h2,h3,h4,h5,h6,.dialog-heading {
-    font-family: "Cantora", sans-serif;
+  font-family: sans-serif;
 }
 header > a {
-  font-family: 'Averia', cursive;
+  font-family: cursive;
   font-size: xxx-large;
   text-decoration: none;
   color: #333;
@@ -89,6 +61,8 @@ nav, footer {
 }
 footer {
   font-size: medium;
+  display: flex;
+  flex-direction: column;
 }
 nav > menu {
     display: flex;
@@ -120,7 +94,7 @@ nav > menu li > a:any-link
     color: #333;
 }
 nav > menu li > a:hover {
-    font-weight: bold;
+    text-decoration: underline;
     color: #000;
 }
 nav > menu li > a:active {
@@ -278,10 +252,6 @@ dialog {
 dialog::backdrop {
   /* background-color: rgba(0, 0, 0, 0.75); */
   backdrop-filter: blur(2px);
-}
-
-code {
-
 }
 kbd,samp {
   border: 1px solid #bbb;
