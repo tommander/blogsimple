@@ -1,9 +1,14 @@
-# Vítejte na mém blogu
+# 🏡 Hlavní stránka
 
-Můžete se dozvědět více o mně nebo kouknout na mé příspěvky (nejen) o hrnčířství.
+Vítejte na mém blogu!
 
-%%TOC%%
+## Stránky
 
-## Posledních 5 příspěvků
+<list pages nohome>
 
-%%LAST5%%
+## Příspěvky
+
+[Aktuální příspěvky](index.php?page=list)\
+[Archiv příspěvků](index.php?page=archive)
+
+<list posts last5>

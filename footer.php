@@ -1,6 +1,6 @@
         </main>
         <footer>
-            <div><?= htmlentities(string: $m->copyright, double_encode: false) ?></div>
+            <div><?= htmlentities(string: \Tommander\BlogSimple\Configuration::BLOG_FOOTER, double_encode: false) ?></div>
             <div><small><samp><?php 
                 $webRenderTime = (hrtime(true) - $startTimestamp);
                 echo htmlspecialchars(Tommander\BlogSimple\Helper::niceIntervalNs($webRenderTime));

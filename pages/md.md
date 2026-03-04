@@ -1,13 +1,18 @@
 # Test MD
 
-## Heading 2
+We test here all available formatting features.
 
-### Heading 3
+## 1 Inline formatting
 
-This **bold** text is __bold__, but sometimes *italic* _too_, so ~~scratch~~ ~all~ and ***add*** this: H<sub>2</sub>O<sup>2-</sup>. Which is nonsense, so <ins>have some rum</ins> and `deploy`. [Nowhere Man's Home](http://example.com).
-And [link to heading 2](#heading-2) <a name="my-custom-anchor-point"></a>
+This **bold** text is __bold__\*, but sometimes *italic* _too_, so ~~scratch~~ ~all~ and ***rum*** and `deploy` to [NotContainer](http://example.com) and go to [heading 2](#heading-2).
+
+## 2 Block formatting
+
+### 2.1 Quote
 
 > Quote
+
+### 2.2 Code
 
 ```magic
 bibbidi
@@ -15,118 +20,63 @@ bobbidi
 boo
 ```
 
-[My Custom Anchor Point](#my-custom-anchor-point).
+### 2.3 Line breaks
 
 Line One  
-Line Two
+Line Two\
+Line Three
 
-Line One\
-Line Two
-
-Line One<br/>
-Line Two
-
-Line One<br>
-Line Two
-
-Unordered:
+### 2.4 Lists
 
 * List 0
 * List 1
    * List 1.1
 * List 2
 
-Ordered:
-
 1. List 0
 1. List 1
    1. List 1.1
 1. List 2
 
-Ordered with unordered:
+* List 0
+* List 1
+   1. List 1.1
+* List 2
 
 1. List 0
 1. List 1
    * List 1.1
 1. List 2
 
-Unordered with ordered:
-
-* List 0
-* List 1
-   1. List 1.1
-* List 2
+### 2.5 Task Lists
 
 - [x] #739
 - [ ] http://example.com
 - [ ] Add delight to the experience when all tasks are complete :tada:
 
-Footnote?[^1]
+### 2.6 Images
 
-> [!NOTE]
-> Useful information that users should know, even when skimming content.
+<div class="imgleft">
 
-> [!TIP]
-> Helpful advice for doing things better or more easily.
+![Slunečnice od Todd Trapani@unsplash.](images/sunflowers.avif)
 
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
+</div>
+<div class="imgright">
 
-> [!WARNING]
-> Urgent info that needs immediate user attention to avoid problems.
+![Slunečnice od Todd Trapani@unsplash.](images/sunflowers.avif)
 
-> [!CAUTION]
-> Advises about risks or negative outcomes of certain actions.
+</div>
+<div class="imgcenter">
 
-<!-- This content will not appear in the rendered Markdown -->
+![Slunečnice od Todd Trapani@unsplash.](images/sunflowers.avif)
 
-Let's rename \*our-new-project\* to \*our-old-project\*.
+</div>
 
-<details>
+### 2.7 Tables
 
-<summary>Tips for collapsed sections</summary>
-
-### You can add a header
-
-You can add text within a collapsed section.
-
-You can add an image or a code block, too.
-
-```ruby
-   puts "Hello World"
-```
-
-</details>
-
-This sentence uses `$` delimiters to show math inline: $\sqrt{3x-1}+(1+x)^2$
-
-**The Cauchy-Schwarz Inequality**\
-$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
-
-![Slunečnice od Todd Trapani@unsplash. Vertical image on left.](images/sunflowers.avif)
-
-<picture>
- <source media="(prefers-color-scheme: dark)" srcset="images/sunflowers.avif">
- <source media="(prefers-color-scheme: light)" srcset="images/avatar-female.jpg">
- <img alt="Slunecnice, ne asi" src="images/avatar-female.jpg">
-</picture>
-
-![Slunečnice od Todd Trapani@unsplash. Vertical image on right.](images/sunflowers.avif)
-
-| Col1 | Col2 |
-|-----:|------|
-|ABCD 1|012345|
-|ABCD 2|012345|
-|ABCD 3|012345|
-
-Or
-
-| Col1 | Col2 |
-|-----:|------|
-|     1|012345|
-|     2|012345|
-|     3|012345|
-
-[^1]: We hope so.
-
-https://unsplash.com/photos/a-large-field-of-sunflowers-with-a-blue-sky-in-the-background-zZkKQIkssaQ
+|Col1 | Col2 |Col 3 |
+|-----:|:------|:------:|
+|ABCD 123|ABCD 123|ABCD 123|
+| ABCD 1| ABCD 1| ABCD 1|
+| ABCD 2 | ABCD 2 | ABCD 2 |
+|ABCD 3 |ABCD 3 |ABCD 3 |

@@ -1,3 +1,5 @@
 vendor/
 cache/*.html
+trash/!.gitkeep
 logs/log.txt
+*.code-workspace

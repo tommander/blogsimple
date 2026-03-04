@@ -13,7 +13,7 @@ class Logger extends AbstractLogger
 
     public function __construct()
     {
-        $this->path = __DIR__ . '/../logs/log.txt';
+        $this->path = Configuration::BLOG_DIR_LOGS . 'log.txt';
         $this->log = '';
         if (file_exists($this->path) && is_file($this->path)) {
             $this->log = (string) file_get_contents($this->path);

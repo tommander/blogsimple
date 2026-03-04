@@ -16,7 +16,7 @@ class Errors
 
     public function refreshErrors(): void
     {
-        $lst = scandir(__DIR__ . '/../errors/', SCANDIR_SORT_NONE);
+        $lst = scandir(Configuration::BLOG_DIR_ERRORS, SCANDIR_SORT_NONE);
         if (!is_array($lst)) {
             $lst = [];
         }
@@ -27,7 +27,7 @@ class Errors
                 continue;
             }
             $name = substr($file, 0, strlen($file)-3);
-            $path = __DIR__ . '/../errors/' . $file;
+            $path = Configuration::BLOG_DIR_ERRORS . $file;
             $content = (string) file_get_contents($path);
             $title = 'No Title ';
             if (preg_match('/\n?#\s*(?<title>[^\r\n\0$]+)\s*/', $content, $matches) === 1) {
