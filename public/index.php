@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 
 $startTimestamp = hrtime(true);
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 $m = new Tommander\BlogSimple\Main();
-include __DIR__. '/header.php';
+include __DIR__. '/../system/partials/header.php';
 
 if (!isset($m) || !class_exists('Tommander\BlogSimple\Main') || !($m instanceof Tommander\BlogSimple\Main)): ?>
     <h1>Internal App Error</h1>
@@ -18,5 +18,5 @@ if (!isset($m) || !class_exists('Tommander\BlogSimple\Main') || !($m instanceof 
 
 $m->renderMdFile();
 
-include __DIR__. '/footer.php';
+include __DIR__. '/../system/partials/footer.php';
 

@@ -10,8 +10,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Tommander\\BlogSimple\\": "src/",
-            "League\\CommonMark\\": "commonmark/src/"
+            "Tommander\\BlogSimple\\": "system/src/"
         }
     },
     "scripts": {
@@ -26,7 +25,6 @@
         "psr/log": "^3.0"
     },
     "require": {
-        "league/config": "^1.1.1",
-        "psr/event-dispatcher": "^1.0"
+        "league/commonmark": "^2.8"
     }
 }

@@ -1,8 +1,7 @@
 vendor/
-cache/*.html
-trash/litter-*
-logs/log.txt
+system/cache/*.html
+system/trash/litter-*
+system/logs/log.txt
 *.code-workspace
 bordel/
-commonmark/
 composer.lock

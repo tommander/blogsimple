@@ -65,13 +65,15 @@ class Cache
 
     public function get(string $dirName, string $fileName, callable $createValue): string
     {
+        $this->logger && $this->logger->debug('Cache get "{dir}" and "{file}".', ['dir' => $dirName, 'file' => $fileName]);
         $safeName = sprintf(
             'cache_%1$s_%2$s.html',
             $dirName,
             $fileName,
         );
         $cacheFile = Configuration::BLOG_DIR_CACHE . $safeName;
-        $sourceFile = Configuration::BLOG_ROOT . $dirName . '/' . $fileName . '.md';
+        $sourceFile = Configuration::BLOG_DIR_PUBLIC . '/' . $dirName . '/' . $fileName . '.md';
+        $this->logger && $this->logger->debug('Cache get "{dir}" and "{file}".', ['dir' => $cacheFile, 'file' => $sourceFile]);
         $this->logger && $this->logger->info('This is cache "{cache}" and source "{src}"', ['cache' => $cacheFile, 'src' => $sourceFile]);
 
         if (

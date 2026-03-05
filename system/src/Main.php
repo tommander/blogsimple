@@ -13,6 +13,7 @@ class Main
     public private(set) string $contentDirname = '';
     public private(set) string $contentTitle = '';
     public private(set) string $contentName = '';
+    public private(set) bool $debug = false;
 
     public function __construct()
     {
@@ -20,6 +21,7 @@ class Main
         $this->cache = new Cache($this->logger);
         $this->file = new File($this->logger);
 
+        $this->debug = (is_string($_GET['debug'] ?? null) && !empty($_GET['debug'] ?? ''));
         $cache = $_GET['cache'] ?? null;
         $post = $_GET[File::FILETYPE_POST] ?? null;
         $page = $_GET[File::FILETYPE_PAGE] ?? null;
@@ -30,7 +32,9 @@ class Main
             $this->cache->reset();
         }
 
-        if (is_string($post) && !empty($post)) {
+        if ($this->debug) {
+            $this->logger->info('Debug recognized');
+        } elseif (is_string($post) && !empty($post)) {
             $this->logger->info('Post "{name}" recognized', ['name' => $post]);
             $this->setContent(File::FILETYPE_POST, $post);
         } elseif (is_string($error) && !empty($error)) {
@@ -95,6 +99,37 @@ class Main
 
     public function renderMdFile(): void
     {
+        if ($this->debug) {
+            ?>
+            <ul>
+                <li><kbd>SITE_URL</kbd>&nbsp;&rarr;&nbsp;<samp><?php Configuration::SITE_URL ?></samp></li>
+                <li><kbd>BLOG_LOCALE</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_LOCALE ?></samp></li>
+                <li><kbd>BLOG_TITLE</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_TITLE ?></samp></li>
+                <li><kbd>BLOG_FOOTER</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_FOOTER ?></samp></li>
+                <li><kbd>BLOG_ROOT</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_ROOT ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_SYSTEM</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_SYSTEM ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_PUBLIC</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_PUBLIC ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_CACHE</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_CACHE ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_LOGS</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_LOGS ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_PAGES</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_PAGES ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_POSTS</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_POSTS ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_ERRORS</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_ERRORS ?></samp></li>
+                <li><kbd>BLOG_DIRNAME_TRASH</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIRNAME_TRASH ?></samp></li>
+                <li><kbd>BLOG_DIR_SYSTEM</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_SYSTEM ?></samp></li>
+                <li><kbd>BLOG_DIR_PUBLIC</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_PUBLIC ?></samp></li>
+                <li><kbd>BLOG_DIR_CACHE</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_CACHE ?></samp></li>
+                <li><kbd>BLOG_DIR_LOGS</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_LOGS ?></samp></li>
+                <li><kbd>BLOG_DIR_PAGES</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_PAGES ?></samp></li>
+                <li><kbd>BLOG_DIR_POSTS</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_POSTS ?></samp></li>
+                <li><kbd>BLOG_DIR_ERRORS</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_ERRORS ?></samp></li>
+                <li><kbd>BLOG_DIR_TRASH</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_DIR_TRASH ?></samp></li>
+                <li><kbd>BLOG_ARCHIVE_TIME</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_ARCHIVE_TIME ?></samp></li>
+                <li><kbd>BLOG_CACHE_TTL</kbd>&nbsp;&rarr;&nbsp;<samp><?= Configuration::BLOG_CACHE_TTL ?></samp></li>
+            </ul>
+            <?php
+            return;
+        }
+
         echo $this->cache->get(
             $this->contentDirname,
             $this->contentName,
