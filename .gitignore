@@ -5,3 +5,4 @@ logs/log.txt
 *.code-workspace
 bordel/
 commonmark/
+composer.lock
