@@ -8,12 +8,10 @@
             "email": "8601794+tommander@users.noreply.github.com"
         }
     ],
-    "require": {
-        "league/commonmark": "^2.8"
-    },
     "autoload": {
         "psr-4": {
-            "Tommander\\BlogSimple\\": "src/"
+            "Tommander\\BlogSimple\\": "src/",
+            "League\\CommonMark\\": "commonmark/src/"
         }
     },
     "scripts": {
@@ -26,5 +24,9 @@
     },
     "require-dev": {
         "psr/log": "^3.0"
+    },
+    "require": {
+        "league/config": "^1.1.1",
+        "psr/event-dispatcher": "^1.0"
     }
 }

@@ -8,7 +8,4 @@ Vítejte na mém blogu!
 
 ## Příspěvky
 
-[Aktuální příspěvky](index.php?page=list)\
-[Archiv příspěvků](index.php?page=archive)
-
 <list posts last5>

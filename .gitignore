@@ -1,5 +1,7 @@
 vendor/
 cache/*.html
-trash/!.gitkeep
+trash/litter-*
 logs/log.txt
 *.code-workspace
+bordel/
+commonmark/
