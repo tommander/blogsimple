@@ -1,0 +1,287 @@
+<h1>Test</h1>
+<p>We test here all available formatting features.</p>
+<h2>1 Inline formatting</h2>
+<h3>Markdown</h3>
+<p>This <strong>bold</strong> text is <strong>bold</strong>*, but sometimes <em>italic</em> <em>too</em>**, so <del>scratch</del> <del>all</del> and <em><strong>drink</strong></em> <code>rum</code> from <a href="http://example.com">example.com</a> then go to <a href="#2-block-formatting">next section</a>.</p>
+<h3>HTML</h3>
+<p>
+    <a>a-nohref</a>
+    <a href="http://example.com">a-href</a>
+    <a class="external" href="http://example.com">a-href</a>
+    <a class="safe" href="http://example.com">a-href</a>
+    <a class="unsafe" href="http://example.com">a-href</a>
+    <abbr title="abbreviation">abbr</abbr>
+    <b>b</b>
+    <bdi>bdi</bdi>
+    <bdo dir="rtl">bdo</bdo>
+    <cite>cite</cite>
+    <code>$n = $x ? $a : $b</code>
+    <data value="8593539033981" title="Koh-i-noor Hardtmuth Kombinovaná stěrací pryž">data</data>
+    <del>del</del><ins>ins</ins>
+    <dfn>dfn</dfn>
+    <em>em</em>
+    <i>i</i>
+    <kbd>kbd</kbd>
+    <mark>mark</mark>
+    <meter value="42" min="0" low="25" optimum="40" high="80" max="100">meter</meter>
+    <progress value="64" max="110">progress</progress>
+    <q>q</q>
+    <s>s</s>
+    <samp>samp</samp>
+    <small>small</small>
+    <strong>strong</strong>
+    x<sub>sub</sub>
+    x<sup>sup</sup>
+    <u>u</u>
+    <var>var</var>
+    <time datetime="2026-12-31 12:34:56">2026-12-31 12:34:56</time>
+    Limonadenstände<wbr>bau<wbr>privat<wbr>finanzierugs<wbr>gesetz
+    Limonadenstände­bau­privat­finanzierugs­gesetz
+</p>
+<h2>2 Block formatting</h2>
+<h3>2.1 Headings</h3>
+<h4>Markdown</h4>
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+<h4>Heading 4</h4>
+<h5>Heading 5</h5>
+<h6>Heading 6</h6>
+<h4>HTML</h4>
+<hgroup>
+    <h1>Heading 1</h1>
+    <h2>Heading 2</h2>
+    <h3>Heading 3</h3>
+    <h4>Heading 4</h4>
+    <h5>Heading 5</h5>
+    <h6>Heading 6</h6>
+</hgroup>
+<h3>2.2 Quote</h3>
+<h4>Markdown</h4>
+<blockquote>
+<p>Quote</p>
+</blockquote>
+<h4>HTML</h4>
+<blockquote cite="http://example.com">
+    Blockquote without paragraph element.
+</blockquote>
+<blockquote cite="http://example.com">
+    <p>Blockquote with paragraph element.</p>
+</blockquote>
+<h3>2.3 Code</h3>
+<h4>Markdown</h4>
+<pre><code class="language-magic">bibbidi
+bobbidi
+boo
+</code></pre>
+<h4>HTML</h4>
+<pre>PRE. Pohanime vase sny.</pre>
+<h3>2.4 Line breaks</h3>
+<p>Line One<br>
+Line Two<br>
+Line Three<br>
+Line Four<br>
+Line Five</p>
+<h3>2.5 Lists</h3>
+<h4>Markdown</h4>
+<ul>
+<li>List 0</li>
+<li>List 1
+<ul>
+<li>List 1.1</li>
+</ul>
+</li>
+<li>List 2</li>
+</ul>
+<ol>
+<li>List 0</li>
+<li>List 1
+<ol>
+<li>List 1.1</li>
+</ol>
+</li>
+<li>List 2</li>
+</ol>
+<ul>
+<li>List 0</li>
+<li>List 1
+<ol>
+<li>List 1.1</li>
+</ol>
+</li>
+<li>List 2</li>
+</ul>
+<ol>
+<li>List 0</li>
+<li>List 1
+<ul>
+<li>List 1.1</li>
+</ul>
+</li>
+<li>List 2</li>
+</ol>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> #739</li>
+<li><input disabled="" type="checkbox"> <a href="http://example.com">http://example.com</a></li>
+<li><input disabled="" type="checkbox"> Add delight to the experience when all tasks are complete :tada:</li>
+</ul>
+<h4>HTML</h4>
+<ul>
+    <li>UL-1</li>
+    <li>UL-2
+        <ul>
+            <li>UL-2.1</li>
+            <li>UL-2.2</li>
+        </ul>
+    </li>
+    <li>UL-3</li>
+</ul>
+<ol>
+    <li>OL-1</li>
+    <li>OL-2
+        <ol>
+            <li>OL-2.1</li>
+            <li>OL-2.2</li>
+        </ol>
+    </li>
+    <li>OL-3</li>
+</ol>
+<menu>
+    <li>MENU-1</li>
+    <li>MENU-2
+        <menu>
+            <li>MENU-2.1</li>
+            <li>MENU-2.2</li>
+        </menu>
+    </li>
+    <li>MENU-3</li>
+</menu>
+<h3>2.6 Images</h3>
+<h4>Markdown (+html wrapper)</h4>
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+<div class="imgleft">
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+</div>
+<div class="imgright">
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+</div>
+<div class="imgcenter">
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+</div>
+<h4>HTML</h4>
+<p><img src="images/lavender.webp" alt="Independent image"></p>
+<div class="imgleft">
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+</div>
+<div class="imgright">
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+</div>
+<div class="imgcenter">
+<p><img src="images/lavender.webp" alt="Sunflower by Todd Trapani@unsplash."></p>
+</div>
+<figure>
+    <figcaption>Figcaption Figure Img</figcaption>
+    <img src="images/lavender.webp" alt="Image in figure element">
+</figure>
+<picture>
+    <!-- <source>
+    <source> -->
+    <img src="images/lavender.webp" alt="Image in picture element">
+</picture>
+<h3>2.7 Tables</h3>
+<h4>Markdown</h4>
+<p>Column header is aligned based on whitespaces,
+normal cell is aligned based on the colon in header separator.</p>
+<table>
+<thead>
+<tr>
+<th align="right">Col1</th>
+<th align="left">Col2</th>
+<th align="center">Col 3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="right">ABCD 123</td>
+<td align="left">ABCD 123</td>
+<td align="center">ABCD 123</td>
+</tr>
+<tr>
+<td align="right">ABCD 1</td>
+<td align="left">ABCD 1</td>
+<td align="center">ABCD 1</td>
+</tr>
+<tr>
+<td align="right">ABCD 2</td>
+<td align="left">ABCD 2</td>
+<td align="center">ABCD 2</td>
+</tr>
+<tr>
+<td align="right">ABCD 3</td>
+<td align="left">ABCD 3</td>
+<td align="center">ABCD 3</td>
+</tr>
+</tbody>
+</table>
+<h4>HTML</h4>
+<table>
+    <caption>This is a table</caption>
+    <colgroup>
+        <col>
+        <col span="2" class="someclass">
+    </colgroup>
+    <thead>
+        <tr>
+            <th scope="col">Col 1</th>
+            <th scope="col">Col 2.1</th>
+            <th scope="col">Col 2.2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Hello</th>
+            <td>World</td>
+            <td>Universe</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th scope="row">Total</th>
+            <td colspan="2">EUR 1,234.56</td>
+        </tr>
+    </tfoot>
+</table>
+<h3>2.9 HTML-specific features</h3>
+<fieldset>
+   <legend>Legend for fieldset</legend>
+   <p>Fieldset content</p>
+</fieldset>
+<address>
+    Contact:<br>
+    <a href="mailto:joe@lemonade.org">joe@lemonade.org</a><br>
+    <a href="tel:+12345678900">+1 (234) 567-8900</a>
+</address>
+<dl>
+    <dt>DataList Term</dt>
+    <dd>DataList Term Description</dd>
+</dl>
+<details>
+    <summary>Open/Close Details</summary>
+    Details content (no paragraph element)
+</details>
+<details>
+    <summary>Open/Close Details</summary>
+    <p>Details content (wrapped with paragraph element)</p>
+</details>
+<ruby> 漢 <rp>(</rp>
+    <rt>kan</rt>
+    <rp>)</rp> 字 <rp>(</rp>
+    <rt>ji</rt>
+    <rp>)</rp>
+</ruby>
+<map name="mappy-mcmapface">
+    <area shape="rect" coords="30,30,50,50" href="http://example.com/rect.html">
+    <area shape="circle" coords="80,80,50" href="http://example.com/circle.html">
+    <area shape="poly" coords="30,30,50,50,30,50,50,30" href="http://example.com/poly.html">
+</map>
+<img usemap="#mappy-mcmapface" src="http://localhost/blogsimple/public/images/lavender.webp" alt="Image for map 'mappy-mcmapface'">

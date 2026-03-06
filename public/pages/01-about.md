@@ -1,3 +1,3 @@
-# 🧑 O mně
+# 🧑 About me
 
 &hellip;

@@ -6,10 +6,10 @@ namespace Tommander\BlogSimple;
 
 use Psr\Log\AbstractLogger;
 
-class Logger extends AbstractLogger
+final class Logger extends AbstractLogger
 {
     protected string $path;
-    protected string $log;
+    protected string $log = '';
 
     public function __construct()
     {
@@ -35,6 +35,7 @@ class Logger extends AbstractLogger
      *
      * @throws \Psr\Log\InvalidArgumentException
      */
+    #[\Override]
     public function log($level, string|\Stringable $message, array $context = []): void
     {
         $levelText = match ($level) {
@@ -49,10 +50,15 @@ class Logger extends AbstractLogger
         };
         $dateText = date('c');
         $prefix = sprintf('{%1$s}[%2$s] ', $dateText, $levelText);
-        $this->log .= $prefix . preg_replace_callback(
+        $messageReady = preg_replace_callback(
             '/\{(?<name>' . implode('|', array_keys($context)) . ')\}/',
-            fn ($matches) => ($context[$matches['name'] ?? null] ?? ''),
-            $message
-        ) . PHP_EOL;
+            function ($matches) use ($context): string {
+                $key = $matches['name'] ?? '';
+                $val = Helper::anyToStr($context[$key]);
+                return $val;
+            },
+            Helper::anyToStr($message),
+        );
+        $this->log .= $prefix . Helper::anyToStr($messageReady) . PHP_EOL;
     }
 }

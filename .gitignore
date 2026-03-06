@@ -1,7 +1,8 @@
 vendor/
 system/cache/*.html
-system/trash/litter-*
 system/logs/log.txt
 *.code-workspace
 bordel/
 composer.lock
+lighttpd.conf
+public/images/lighttpd.png

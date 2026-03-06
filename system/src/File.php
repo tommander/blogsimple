@@ -7,25 +7,34 @@ namespace Tommander\BlogSimple;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
-class File
+/**
+ * @psalm-type BlogSimpleOneFileData = array{name: string, url: string, path: string, title: string, excerpt: string, mdate: int}
+ * @psalm-type BlogSimpleFileList = array<string, array<string, BlogSimpleOneFileData>>
+ */
+final class File
 {
     use LoggerAwareTrait;
-    
+
+    /** @var non-empty-string */
     public const FILETYPE_POST = 'post';
+    /** @var non-empty-string */
     public const FILETYPE_PAGE = 'page';
+    /** @var non-empty-string */
     public const FILETYPE_ERROR = 'error';
 
     public const CARD_HTML = 'html';
     public const CARD_MD_BIG = 'md-big';
     public const CARD_MD_SMALL = 'md-small';
 
-    public protected(set) array $data = [];
+    /** @var BlogSimpleFileList */
+    public array $data = [];
     private bool $refreshed = false;
-    public array $filesDirPaths = [];
+    /** @var non-empty-array<non-empty-string, non-empty-string> */
+    public array $filesDirPaths;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface|null $logger)
     {
-        $this->setLogger($logger);
+        $logger && $this->setLogger($logger);
         $this->filesDirPaths = [
             static::FILETYPE_POST => Configuration::BLOG_DIR_POSTS,
             static::FILETYPE_PAGE => Configuration::BLOG_DIR_PAGES,
@@ -35,15 +44,16 @@ class File
         $this->refreshData();
     }
 
-    public function getItem(string $type, string $name): array
+    /**
+     * @return BlogSimpleOneFileData|null
+     */
+    public function getItem(string $type, string $name): array|null
     {
         if (
             !isset($this->data[$type]) ||
-            !is_array($this->data[$type]) ||
-            !isset($this->data[$type][$name]) ||
-            !is_array($this->data[$type][$name])
+            !isset($this->data[$type][$name])
         ) {
-            return [];
+            return null;
         }
         return $this->data[$type][$name];
     }
@@ -53,37 +63,39 @@ class File
         return Main::homeUrl([$type => $name]);
     }
 
+    /**
+     * @param non-empty-string $type
+     */
     private function addData(string $type, string $filename): void
     {
-            $name = substr($filename, 0, strlen($filename)-3);
-            $path = $this->filesDirPaths[$type] . $filename;
-            $content = (string) file_get_contents($path);
-            $title = 'No Title';
-            if (preg_match('/\n?#\s*(?<title>[^\r\n\0$]+)\s*/', $content, $matches) === 1) {
-                $title = $matches['title'];
+        $name = substr($filename, 0, strlen($filename) - 3);
+        $path = $this->filesDirPaths[$type] . $filename;
+        $content = (string) file_get_contents($path);
+        $title = 'No Title';
+        if (preg_match('/\n?#\s*(?<title>[^\r\n\0$]+)\s*/', $content, $matches) === 1) {
+            $title = $matches['title'];
+        }
+        $excerpt = '';
+        if ($type === static::FILETYPE_POST) {
+            $firstPara = '';
+            if (preg_match('/\n?#.+?\n\n(?<para1>.+?)(?:\s*\n\n|\s*$)/', $content, $matches) === 1) {
+                $firstPara = $matches['para1'];
             }
-            $excerpt = '';
-            if ($type === static::FILETYPE_POST) {
-                $firstPara = '';
-                if (preg_match('/\n?#.+?\n\n(?<para1>.+?)(?:\s*\n\n|\s*$)/', $content, $matches) === 1) {
-                    $firstPara = $matches['para1'];
-                }
-                $excerpt = (strlen($firstPara) > 200) ? substr($firstPara, 0, 199) . '&hellip;' : $firstPara;
-            }
-
-            $item = [
-                'name' => $name,
-                'url' => $this->itemUrl($type,$name),
-                'path' => $path,
-                'title' => $title,
-                'excerpt' => $excerpt,
-                'mdate' => filemtime($path),
-            ];
-            (!isset($this->data[$type]) && ($this->data[$type] = []));
-            $this->data[$type][$name] = $item;
+            $excerpt = (strlen($firstPara) > 200) ? substr($firstPara, 0, 199) . '&hellip;' : $firstPara;
+        }
+        $item = [
+            'name' => $name,
+            'url' => $this->itemUrl($type, $name),
+            'path' => $path,
+            'title' => $title,
+            'excerpt' => $excerpt,
+            'mdate' => (int) filemtime($path),
+        ];
+        (!isset($this->data[$type]) && ($this->data[$type] = []));
+        $this->data[$type][$name] = $item;
     }
 
-   private function refreshData(): void
+    private function refreshData(): void
     {
         if ($this->refreshed) {
             return;
@@ -110,14 +122,17 @@ class File
                     return 0;
                 }
 
-                return match(true) {
+                return match (true) {
                     ($type === static::FILETYPE_PAGE && $a['name'] === 'home') => -1,
                     ($type === static::FILETYPE_PAGE && $b['name'] === 'home') => 1,
                     ($type === static::FILETYPE_PAGE && $a['name'] === 'list') => -1,
                     ($type === static::FILETYPE_PAGE && $b['name'] === 'list') => 1,
                     ($type === static::FILETYPE_PAGE && $a['name'] === 'archive') => -1,
                     ($type === static::FILETYPE_PAGE && $b['name'] === 'archive') => 1,
-                    default => strcasecmp($a['name'], $b['name']),
+                    default => strcasecmp(
+                        is_string($a['name']) ? $a['name'] : '',
+                        is_string($b['name']) ? $b['name'] : '',
+                    ),
                 };
             });
         }
@@ -127,11 +142,11 @@ class File
     {
         $this->refreshData();
         $res = '';
-        foreach ($this->data[$type] as $name => $data) {
-            if (!is_array($data)) {
-                $this->logger->warning('Strange value for a file data "{val}"', ['val' => var_export($data, true)]);
-                continue;
-            }
+        foreach ($this->data[$type] as /*$name => */$data) {
+            // if (!is_array($data)) {
+            //     $this->logger->warning('Strange value for a file data "{val}"', ['val' => var_export($data, true)]);
+            //     continue;
+            // }
 
             if ($type === static::FILETYPE_POST) {
                 $isArchived = ((time() - ($data['mdate'] ?? 0)) > Configuration::BLOG_ARCHIVE_TIME);
@@ -140,7 +155,9 @@ class File
                 }
             }
 
+            $this->logger && $this->logger->debug('Datacard {type} "{title}"', ['type' => $type, 'title' => $data['title']]);
             $res .= static::datacard(
+                $type,
                 $style,
                 $data['url'],
                 $data['title'],
@@ -151,27 +168,35 @@ class File
         return $res;
     }
 
-    public static function datacard(string $style, string $url, string $title, string $excerpt, int $mdate): string
+    public static function datacard(string $type, string $style, string $url, string $title, string $excerpt, int $mdate): string
     {
         $format = match ($style) {
             static::CARD_HTML => '<li><a class="page" href="%1$s">%2$s</a></li>',
             static::CARD_MD_SMALL => '[%2$s](%1$s)  ' . PHP_EOL,
-            static::CARD_MD_BIG => <<<'MD'
-            > **[%2$s](%1$s)**\
-            > <small>🗓️ %4$s</small>
-            >
-            > %5$s
+            static::CARD_MD_BIG => match ($type) {
+                static::FILETYPE_PAGE => <<<'MD'
+                    > **[%2$s](%1$s)**
 
 
 
-            MD,
+                    MD,
+                default => <<<'MD'
+                    > **[%2$s](%1$s)**\
+                    > <small>🗓️ %4$s</small>
+                    >
+                    > %5$s
+
+
+
+                    MD,
+            },
         };
         return sprintf(
             $format,
             $url,
             $title,
             date('d.m.Y H:i:s', $mdate),
-            Helper::niceInterval(time() - ((int) $mdate)),
+            Helper::niceInterval(time() - $mdate),
             $excerpt,
         );
     }
