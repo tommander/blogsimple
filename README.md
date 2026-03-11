@@ -17,16 +17,17 @@ Simple [PHP](https://php.net/) [blog](https://en.wikipedia.org/wiki/Blog) with [
 
 ## Installation
 
-Prerequisite: [lighttpd](https://www.lighttpd.net/).
-
 1. `git clone https://github.com/tommander/blogsimple.git`
+2. `composer install`
 
 ## Run lighttpd local server
 
-3. `cp lighttpd.conf.default lighttpd.conf`
-4. Edit lighttpd.conf
-5. `lighttpd -tt -f lighttpd.conf`
-6. `lighttpd -D -f lighttpd.conf`
+Prerequisite: [lighttpd](https://www.lighttpd.net/).
+
+1. `cp lighttpd.conf.default lighttpd.conf`
+2. Edit lighttpd.conf
+3. `lighttpd -tt -f lighttpd.conf`
+4. `lighttpd -D -f lighttpd.conf`
 
 ## License
 
