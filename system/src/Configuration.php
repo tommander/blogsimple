@@ -6,7 +6,7 @@ namespace Tommander\BlogSimple;
 
 final class Configuration
 {
-    public const SITE_URL = 'http://localhost/blogsimple/public';
+    public const SITE_URL = 'http://localhost:3737';
     public const BLOG_LOCALE = 'cs-CZ';
     public const BLOG_TITLE = 'Blog';
     public const BLOG_FOOTER = '&copy; 2026 Já.';

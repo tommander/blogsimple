@@ -1,5 +1,5 @@
-# 📚 Příspěvky
+# 📚 Posts
 
-[Příspěvky starší než <archive_duration>](index.php?page=archive)
+[Posts older than <archive_duration>](index.php?page=archive)
 
 <list posts current>

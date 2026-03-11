@@ -120,7 +120,7 @@ final class Main
         $testHtml = file_get_contents(__DIR__ . '/../tests/fixtures/test_parsed.html');
         return <<<HTML
         <h1>Debug</h1>
-        <p>Tato stránka je určena vývojářům/testerům, kteří ji mohou najít v <code>/system/src/Main.php</code> v metodě <code>Main::debugPage()</code>. Odtud níže si přidávejte a mažte, co klávesnice ráčí.</p>
+        <p>This page can be used by developers/testers - you can find it in <code>/system/src/Main.php</code> method <code>Main::debugPage()</code>. Add, edit and delete whatever you want below.</p>
         $testHtml
         HTML;
     }

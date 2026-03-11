@@ -16,12 +16,10 @@ final class Helper
         $prepend = (($seconds < 0) ? '-' : '');
         ($seconds < 0) && ($seconds *= -1);
             $text = match (true) {
-                $seconds < 60 => sprintf('%d s', $seconds),
+                $seconds < 60 => sprintf('%d sec', $seconds),
                 $seconds < 3600 => sprintf('%.0f min', intdiv($seconds, 60)),
-                $seconds < 86400 => sprintf('%.0f hod', intdiv($seconds, 3600)),
-                $seconds < (2 * 86400) => '1 den',
-                $seconds < (5 * 86400) => sprintf('%.0f dny', intdiv($seconds, 86400)),
-                $seconds >= (5 * 86400) => sprintf('%.0f dni', intdiv($seconds, 86400)),
+                $seconds < 86400 => sprintf('%.0f hr', intdiv($seconds, 3600)),
+                $seconds >= 86400 => sprintf('%.0f d', intdiv($seconds, 86400)),
             };
         return $prepend . $text;
     }

@@ -3,7 +3,6 @@
     <description>TMD Ruleset</description>
 
     <file>public/index.php</file>
-    <file>public/endpoint.php</file>
     <file>system/src</file>
     <file>system/partials</file>
 

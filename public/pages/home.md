@@ -4,10 +4,10 @@ Welcome to the blog!
 
 Below you can find all available placeholders you can use in pages, posts and errors.
 
-## Stránky
+## Pages
 
 <details>
-<summary>Zobrazit &lt;list pages nohome&gt;</summary>
+<summary>Show &lt;list pages nohome&gt;</summary>
 <div style="display: flex">
 
 <list pages nohome>
@@ -15,7 +15,7 @@ Below you can find all available placeholders you can use in pages, posts and er
 </div>
 </details>
 
-## Příspěvky
+## Posts
 
 <div style="display: flex">
 

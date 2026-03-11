@@ -13,7 +13,6 @@
 >
     <projectFiles>
          <file name="public/index.php" />
-        <file name="public/endpoint.php" />
         <directory name="system/src" />
         <directory name="system/partials" />
         <ignoreFiles>

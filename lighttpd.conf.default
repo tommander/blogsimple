@@ -1,0 +1,22 @@
+server.document-root = "/absolute/path/to/projectroot/"
+server.port = 2345
+server.modules = ( "mod_fastcgi" )
+static-file.exclude-extensions = ( ".fcgi", ".php", ".rb", "~", ".inc" )
+index-file.names = ( "index.html" )
+fastcgi.server = ( ".php" => 
+    ((
+        "bin-path" => "/usr/bin/php-cgi",
+        "socket" => "/run/lighttpd/php.socket",
+        "max-procs" => 1,
+        "bin-environment" => ( 
+            "PHP_FCGI_CHILDREN" => "4",
+            "PHP_FCGI_MAX_REQUESTS" => "10000"
+        ),
+        "bin-copy-environment" => (
+            "PATH", "SHELL", "USER"
+        ),
+        "broken-scriptfilename" => "enable"
+    ))
+)
+
+
