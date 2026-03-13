@@ -1,9 +1,17 @@
-<!DOCTYPE html>
+<?php
+
+/**
+ * Blog header file.
+ */
+
+?><!DOCTYPE html>
 <html lang="<?= Tommander\BlogSimple\Helper::esclang(\Tommander\BlogSimple\Configuration::BLOG_LOCALE) ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <?php /** @psalm-suppress UnnecessaryVarAnnotation */
+    /** @var Tommander\BlogSimple\Main $m */ ?>
     <title><?= $m->htmltitle() ?></title>
 </head>
 <body>

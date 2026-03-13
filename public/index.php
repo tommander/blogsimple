@@ -2,46 +2,45 @@
 
 declare(strict_types=1);
 
+use Tommander\BlogSimple\Diagnostics;
 use Tommander\BlogSimple\Main;
 
 error_reporting(E_ALL);
 
-/** @psalm-suppress UnusedVariable */
-$startTimestamp = hrtime(true);
-
 $fileAutoload = __DIR__ . '/../vendor/autoload.php';
 if (!file_exists($fileAutoload)) {
-    ?>
-    <h1>Internal App Error</h1>
-    <p>Autoload file <q><?= htmlspecialchars($fileAutoload) ?></q> does not exist.</p>
-    <?php
+    printf('<h1>Internal App Error</h1><p>Autoload file <q>%1$s</q> does not exist.</p>', htmlspecialchars($fileAutoload));
     exit(1);
+}
+require $fileAutoload;
+
+$wantDiagnosticsRaw = $_GET['diagnostics'] ?? null;
+$wantDiagnostics = (is_string($wantDiagnosticsRaw) ? (strtolower(trim($wantDiagnosticsRaw)) === 'true') : false);
+if ($wantDiagnostics) {
+    try {
+        $diagnostics = new Diagnostics();
+        $diagnose = $diagnostics->run() ? 'SUCCESS' : 'ERROR';
+        echo '<p>' . htmlspecialchars($diagnose) . '</p><pre>' . htmlspecialchars($diagnostics->exportLog()) . '</pre>';
+    } catch (\Throwable $error) {
+        echo '<p>' . htmlspecialchars($error->__toString()) . '</p>';
+    }
+    exit(0);
 }
 
 $fileHeader = __DIR__ . '/../system/partials/header.php';
 if (!file_exists($fileHeader)) {
-    ?>
-    <h1>Internal App Error</h1>
-    <p>Header file <q><?= htmlspecialchars($fileHeader) ?></q> does not exist.</p>
-    <?php
+    printf('<h1>Internal App Error</h1><p>Header file <q>%1$s</q> does not exist.</p>', htmlspecialchars($fileHeader));
     exit(1);
 }
 
 $fileFooter = __DIR__ . '/../system/partials/footer.php';
 if (!file_exists($fileFooter)) {
-    ?>
-    <h1>Internal App Error</h1>
-    <p>Footer file <q><?= htmlspecialchars($fileFooter) ?></q> does not exist.</p>
-    <?php
+    printf('<h1>Internal App Error</h1><p>Footer file <q>%1$s</q> does not exist.</p>', htmlspecialchars($fileFooter));
     exit(1);
 }
 
-require $fileAutoload;
 if (!class_exists('Tommander\BlogSimple\Main')) {
-    ?>
-    <h1>Internal App Error</h1>
-    <p>Class <q>Main</q> is not autoloaded.</p>
-    <?php
+    echo '<h1>Internal App Error</h1><p>Class <q>Main</q> is not autoloaded.</p>';
     exit(1);
 }
 

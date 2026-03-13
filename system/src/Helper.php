@@ -19,7 +19,8 @@ final class Helper
                 $seconds < 60 => sprintf('%d sec', $seconds),
                 $seconds < 3600 => sprintf('%.0f min', intdiv($seconds, 60)),
                 $seconds < 86400 => sprintf('%.0f hr', intdiv($seconds, 3600)),
-                $seconds >= 86400 => sprintf('%.0f d', intdiv($seconds, 86400)),
+                $seconds < (2 * 86400) => '1 day',
+                $seconds >= (2 * 86400) => sprintf('%.0f days', intdiv($seconds, 86400)),
             };
         return $prepend . $text;
     }
@@ -45,32 +46,39 @@ final class Helper
         return 'Render time (backend): ' . $prepend . $text;
     }
 
-    public static function niceNumber(float $num, string $baseUnit, int $precision = 1): string
-    {
-        if (abs($num) < (10 ** -6)) {
-            return sprintf('%.*f n%s', $precision, $num * (float)(10 ** 9), $baseUnit);
-        }
-        if (abs($num) < (10 ** -3)) {
-            return sprintf('%.*f μ%s', $precision, $num * (float)(10 ** 6), $baseUnit);
-        }
-        if (abs($num) < 1) {
-            return sprintf('%.*f m%s', $precision, $num * (float)(10 ** 3), $baseUnit);
-        }
+    // public static function niceNumber(float $num, string $baseUnit, int $precision = 1): string
+    // {
+    //     if (abs($num) < (10 ** -6)) {
+    //         /** @psalm-suppress InvalidArgument */
+    //         return sprintf('%.*f n%s', $precision, $num * (float)(10 ** 9), $baseUnit);
+    //     }
+    //     if (abs($num) < (10 ** -3)) {
+    //         /** @psalm-suppress InvalidArgument */
+    //         return sprintf('%.*f μ%s', $precision, $num * (float)(10 ** 6), $baseUnit);
+    //     }
+    //     if (abs($num) < 1) {
+    //         /** @psalm-suppress InvalidArgument */
+    //         return sprintf('%.*f m%s', $precision, $num * (float)(10 ** 3), $baseUnit);
+    //     }
 
-        if (abs($num) < (10 ** 3)) {
-            return sprintf('%.*f %s', $precision, $num, $baseUnit);
-        }
+    //     if (abs($num) < (10 ** 3)) {
+    //         /** @psalm-suppress InvalidArgument */
+    //         return sprintf('%.*f %s', $precision, $num, $baseUnit);
+    //     }
 
-        if (abs($num) < (10 ** 6)) {
-            return sprintf('%.*f k%s', $precision, $num / (float)(10 ** 3), $baseUnit);
-        }
+    //     if (abs($num) < (10 ** 6)) {
+    //         /** @psalm-suppress InvalidArgument */
+    //         return sprintf('%.*f k%s', $precision, $num / (float)(10 ** 3), $baseUnit);
+    //     }
 
-        if (abs($num) < (10 ** 9)) {
-            return sprintf('%.*f M%s', $precision, $num / (float)(10 ** 6), $baseUnit);
-        }
+    //     if (abs($num) < (10 ** 9)) {
+    //         /** @psalm-suppress InvalidArgument */
+    //         return sprintf('%.*f M%s', $precision, $num / (float)(10 ** 6), $baseUnit);
+    //     }
 
-        return sprintf('%.*f G%s', $precision, $num / (float)(10 ** 9), $baseUnit);
-    }
+    //         /** @psalm-suppress InvalidArgument */
+    //     return sprintf('%.*f G%s', $precision, $num / (float)(10 ** 9), $baseUnit);
+    // }
 
     public static function niceBytes(int $bytes): string
     {
@@ -105,12 +113,22 @@ final class Helper
         if (is_scalar($something) || is_null($something)) {
             return strval($something);
         }
-        if (is_object($something) && (($something instanceof Stringable) || method_exists($something, '__toString'))) {
-            return $something->__toString();
+        if (is_object($something) && (($something instanceof \Stringable) || method_exists($something, '__toString'))) {
+            $result = '';
+            try {
+                /** @var mixed */
+                $raw = $something->__toString();
+                if (is_string($raw)) {
+                    $result = $raw;
+                }
+            } catch (\Throwable $error) {
+                $result = '';
+            }
+            return $result;
         }
         if ($jsonBeforeDefault) {
             $json = json_encode($something);
-            if (json_last_error() === JSON_ERROR_NONE) {
+            if (json_last_error() === JSON_ERROR_NONE && is_string($json)) {
                 return $json;
             }
         }

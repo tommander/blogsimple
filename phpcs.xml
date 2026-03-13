@@ -18,6 +18,6 @@
     </rule>
     <rule ref="PHPCompatibility"></rule>
 
-    <config name="testVersion" value="7.4-"/>
+    <config name="testVersion" value="8.2-"/>
     <config name="installed_paths" value="vendor/phpcompatibility/php-compatibility" />
 </ruleset>

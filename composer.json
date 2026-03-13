@@ -15,9 +15,11 @@
     },
     "scripts": {
         "self:check": "composer validate --strict",
+        "donotuse": "by-issue-level, checkstyle, codeclimate, compact, console, count, emacs, github, json, json-summary, junit, phpstorm, pylint, sarif, sonarqube, text, xml",
+        "donotuse2": "full, xml, checkstyle, csv, json, junit, emacs, source, summary, diff, svnblame, gitblame, hgblame, notifysend, performance",
         "php:lint": "php -l public/index.php public/endpoint.php system/src/*.php system/partials/*.php",
-        "phpcs": "phpcs",
-        "psalm": "psalm --show-info=true --no-file-cache --no-reflection-cache --no-cache",
+        "phpcs": "phpcs -p -s --colors --no-cache --report=full",
+        "psalm": "psalm --show-info=true --no-file-cache --no-reflection-cache --no-cache --output-format=compact",
         "qa": [
             "@self:check",
             "@php:lint",

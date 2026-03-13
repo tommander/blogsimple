@@ -8,75 +8,85 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LoggerInterface;
 
 /**
+ * Represents all public pages, posts and errors.
+ *
  * @psalm-type BlogSimpleOneFileData = array{name: string, url: string, path: string, title: string, excerpt: string, mdate: int}
  * @psalm-type BlogSimpleFileList = array<string, array<string, BlogSimpleOneFileData>>
+ * @psalm-type CardStyle = 'html'|'md-big'|'md-small'
  */
 final class File
 {
     use LoggerAwareTrait;
 
-    /** @var non-empty-string */
-    public const FILETYPE_POST = 'post';
-    /** @var non-empty-string */
-    public const FILETYPE_PAGE = 'page';
-    /** @var non-empty-string */
-    public const FILETYPE_ERROR = 'error';
-
     public const CARD_HTML = 'html';
     public const CARD_MD_BIG = 'md-big';
     public const CARD_MD_SMALL = 'md-small';
+    public const CARD_STYLES = [self::CARD_HTML, self::CARD_MD_BIG, self::CARD_MD_SMALL];
 
     /** @var BlogSimpleFileList */
     public array $data = [];
     private bool $refreshed = false;
-    /** @var non-empty-array<non-empty-string, non-empty-string> */
-    public array $filesDirPaths;
 
     public function __construct(LoggerInterface|null $logger)
     {
         $logger && $this->setLogger($logger);
-        $this->filesDirPaths = [
-            static::FILETYPE_POST => Configuration::BLOG_DIR_POSTS,
-            static::FILETYPE_PAGE => Configuration::BLOG_DIR_PAGES,
-            static::FILETYPE_ERROR => Configuration::BLOG_DIR_ERRORS,
-        ];
-
         $this->refreshData();
     }
 
     /**
+     * Get the data of the specified file.
+     *
+     * @param FileTypeEnum $type File type (post/page/error)
+     * @param non-empty-string $name File name (without extension)
+     *
      * @return BlogSimpleOneFileData|null
      */
-    public function getItem(string $type, string $name): array|null
+    public function getItem(FileTypeEnum $type, string $name): array|null
     {
         if (
-            !isset($this->data[$type]) ||
-            !isset($this->data[$type][$name])
+            !isset($this->data[$type->value]) ||
+            !isset($this->data[$type->value][$name])
         ) {
             return null;
         }
-        return $this->data[$type][$name];
-    }
-
-    public function itemUrl(string $type, string $name): string
-    {
-        return Main::homeUrl([$type => $name]);
+        return $this->data[$type->value][$name];
     }
 
     /**
-     * @param non-empty-string $type
+     * Get the URL that leads to particular MD file
+     *
+     * @param FileTypeEnum $type File type (post/page/error)
+     * @param non-empty-string $name File name (without extension)
      */
-    private function addData(string $type, string $filename): void
+    public function itemUrl(FileTypeEnum $type, string $name): string
     {
-        $name = substr($filename, 0, strlen($filename) - 3);
-        $path = $this->filesDirPaths[$type] . $filename;
+        return Main::homeUrl([$type->value => $name]);
+    }
+
+    /**
+     * Data MD file data to the instance property
+     *
+     * @param FileTypeEnum $type
+     * @param non-empty-string $filename
+     */
+    private function addData(FileTypeEnum $type, string $filename): void
+    {
+        $trimmed = trim($filename);
+        if (empty($trimmed) || strlen($trimmed) < 4) {
+            $this->logger && $this->logger->error('Incorrect file name "{name}".', ['name' => $filename]);
+            return;
+        }
+
+        /** @var non-empty-string */
+        $name = substr($trimmed, 0, strlen($trimmed) - 3);
+        $path = $type->path() . $name . '.md';
         $content = (string) file_get_contents($path);
         $title = 'No Title';
         if (preg_match('/\n?#\s*(?<title>[^\r\n\0$]+)\s*/', $content, $matches) === 1) {
             $title = $matches['title'];
         }
         $excerpt = '';
-        if ($type === static::FILETYPE_POST) {
+        if ($type === FileTypeEnum::Posts) {
             $firstPara = '';
             if (preg_match('/\n?#.+?\n\n(?<para1>.+?)(?:\s*\n\n|\s*$)/', $content, $matches) === 1) {
                 $firstPara = $matches['para1'];
@@ -91,10 +101,13 @@ final class File
             'excerpt' => $excerpt,
             'mdate' => (int) filemtime($path),
         ];
-        (!isset($this->data[$type]) && ($this->data[$type] = []));
-        $this->data[$type][$name] = $item;
+        (!isset($this->data[$type->value]) && ($this->data[$type->value] = []));
+        $this->data[$type->value][$name] = $item;
     }
 
+    /**
+     * Read all MD files
+     */
     private function refreshData(): void
     {
         if ($this->refreshed) {
@@ -103,32 +116,34 @@ final class File
         $this->refreshed = true;
 
         $this->data = [];
-        foreach ([static::FILETYPE_POST, static::FILETYPE_PAGE, static::FILETYPE_ERROR] as $type) {
-            $lst = scandir($this->filesDirPaths[$type], SCANDIR_SORT_NONE);
+        foreach (FileTypeEnum::cases() as $type) {
+            $path = $type->path();
+            $lst = scandir($path, SCANDIR_SORT_NONE);
             if (!is_array($lst)) {
                 $lst = [];
             }
 
-            $this->data[$type] = [];
+            $this->data[$type->value] = [];
             foreach ($lst as $file) {
-                if (in_array($file, ['.', '..'], true) || !str_ends_with($file, '.md')) {
+                if (in_array($file, ['.', '..'], true) || !str_ends_with($file, '.md') || empty($file)) {
                     continue;
                 }
+                /** @var non-empty-string $file */
                 $this->addData($type, $file);
             }
 
-            uasort($this->data[$type], function (mixed $a, mixed $b) use ($type): int {
+            uasort($this->data[$type->value], function (mixed $a, mixed $b) use ($type): int {
                 if (!is_array($a) || !is_array($b)) {
                     return 0;
                 }
 
                 return match (true) {
-                    ($type === static::FILETYPE_PAGE && $a['name'] === 'home') => -1,
-                    ($type === static::FILETYPE_PAGE && $b['name'] === 'home') => 1,
-                    ($type === static::FILETYPE_PAGE && $a['name'] === 'list') => -1,
-                    ($type === static::FILETYPE_PAGE && $b['name'] === 'list') => 1,
-                    ($type === static::FILETYPE_PAGE && $a['name'] === 'archive') => -1,
-                    ($type === static::FILETYPE_PAGE && $b['name'] === 'archive') => 1,
+                    ($type === FileTypeEnum::Pages && $a['name'] === 'home') => -1,
+                    ($type === FileTypeEnum::Pages && $b['name'] === 'home') => 1,
+                    ($type === FileTypeEnum::Pages && $a['name'] === 'list') => -1,
+                    ($type === FileTypeEnum::Pages && $b['name'] === 'list') => 1,
+                    ($type === FileTypeEnum::Pages && $a['name'] === 'archive') => -1,
+                    ($type === FileTypeEnum::Pages && $b['name'] === 'archive') => 1,
                     default => strcasecmp(
                         is_string($a['name']) ? $a['name'] : '',
                         is_string($b['name']) ? $b['name'] : '',
@@ -138,17 +153,21 @@ final class File
         }
     }
 
-    public function listData(string $type, string $style, bool $postsArchived = false): string
+    /**
+     * List all files of a specific type (page/post/error) as HTML datacards appended to a continuous
+     *
+     * @param FileTypeEnum $type File type (post/page/error)
+     * @param CardStyle $style Card style (html/md-big/md-small)
+     * @param bool $postsArchived Show only archived posts (true) or only non-archived (false). No effect on pages/errors
+     *
+     * @return string Datacards as HTML
+     */
+    public function listData(FileTypeEnum $type, string $style, bool $postsArchived = false): string
     {
         $this->refreshData();
         $res = '';
-        foreach ($this->data[$type] as /*$name => */$data) {
-            // if (!is_array($data)) {
-            //     $this->logger->warning('Strange value for a file data "{val}"', ['val' => var_export($data, true)]);
-            //     continue;
-            // }
-
-            if ($type === static::FILETYPE_POST) {
+        foreach ($this->data[$type->value] as /*$name => */$data) {
+            if ($type === FileTypeEnum::Posts) {
                 $isArchived = ((time() - ($data['mdate'] ?? 0)) > Configuration::BLOG_ARCHIVE_TIME);
                 if ($postsArchived xor $isArchived) {
                     continue;
@@ -168,13 +187,25 @@ final class File
         return $res;
     }
 
-    public static function datacard(string $type, string $style, string $url, string $title, string $excerpt, int $mdate): string
+    /**
+     * Creates an HTML "card" (styled div container with data inside) for a
+     *
+     * @param FileTypeEnum $type File type (post/page/error)
+     * @param CardStyle $style Card style (html/md-big/md-small)
+     * @param string $url Url for that file
+     * @param string $title Title of the document
+     * @param string $excerpt Excerpt of the document (this class uses it only for posts, but it can be activated for other file types)
+     * @param int $mdate File modified time (unix timestamp)
+     *
+     * @return string HTML "datacard" for the file
+     */
+    public static function datacard(FileTypeEnum $type, string $style, string $url, string $title, string $excerpt, int $mdate): string
     {
         $format = match ($style) {
             static::CARD_HTML => '<li><a class="page" href="%1$s">%2$s</a></li>',
             static::CARD_MD_SMALL => '[%2$s](%1$s)  ' . PHP_EOL,
             static::CARD_MD_BIG => match ($type) {
-                static::FILETYPE_PAGE => <<<'MD'
+                FileTypeEnum::Pages => <<<'MD'
                     > **[%2$s](%1$s)**
 
 

@@ -10,16 +10,23 @@ final class Main
 {
     use LoggerAwareTrait;
 
+    private int $blogRenderStart;
+
     public File $file;
     public Cache|null $cache;
 
-    public string $contentDirname = '';
-    public string $contentTitle = '';
-    public string $contentName = '';
+    /** @var FileTypeEnum */
+    public FileTypeEnum $contentDirname = FileTypeEnum::Pages;
+    /** @var non-empty-string */
+    public string $contentTitle = 'Homepage';
+    /** @var non-empty-string */
+    public string $contentName = 'home';
     public bool $debug = false;
 
     public function __construct()
     {
+        $this->blogRenderStart = hrtime(true);
+
         // Instantiate object properties
         /** @psalm-suppress RedundantCondition */
         if (Configuration::BLOG_NO_LOG !== true) {
@@ -35,9 +42,9 @@ final class Main
         }
         $this->debug = (!empty($rawDebug));
         $cache = $_GET['cache'] ?? null;
-        $post = $_GET[File::FILETYPE_POST] ?? null;
-        $page = $_GET[File::FILETYPE_PAGE] ?? null;
-        $error = $_GET[File::FILETYPE_ERROR] ?? null;
+        $post = $_GET[Configuration::BLOG_DIRNAME_POSTS] ?? null;
+        $page = $_GET[Configuration::BLOG_DIRNAME_PAGES] ?? null;
+        $error = $_GET[Configuration::BLOG_DIRNAME_ERRORS] ?? null;
 
         // Reset cache if requested
         if ($cache === 'reset') {
@@ -50,15 +57,15 @@ final class Main
             $this->logger && $this->logger->info('Debug recognized');
         } elseif (is_string($post) && !empty($post)) {
             $this->logger && $this->logger->info('Post "{name}" recognized', ['name' => $post]);
-            $this->setContent(File::FILETYPE_POST, $post);
+            $this->setContent(FileTypeEnum::Posts, $post);
         } elseif (is_string($error) && !empty($error)) {
             $this->logger && $this->logger->info('Error "{name}" recognized', ['name' => $error]);
-            $this->setContent(File::FILETYPE_ERROR, $error);
+            $this->setContent(FileTypeEnum::Errors, $error);
         } else {
             $isPage = (is_string($page) && !empty($page));
             $realPage = ($isPage ? $page : 'home');
             $this->logger && $this->logger->info('Page "{name}" recognized', ['name' => $realPage]);
-            $this->setContent(File::FILETYPE_PAGE, $realPage);
+            $this->setContent(FileTypeEnum::Pages, $realPage);
         }
 
         // The rendering will be handled by $this->renderMdFile()
@@ -83,16 +90,29 @@ final class Main
         return Configuration::SITE_URL . $path . $queryStr;
     }
 
-    public function setContent(string $type, string $name): void
+    public function nanosecondsFromBlogRenderStart(): int
+    {
+        return (hrtime(true) - $this->blogRenderStart);
+    }
+
+    /**
+     * @param FileTypeEnum $type
+     * @param non-empty-string $name
+     */
+    public function setContent(FileTypeEnum $type, string $name): void
     {
         $data = $this->file->getItem($type, $name);
-        $this->contentTitle = $data['title'] ?? 'No Title';
-        $this->contentName = (string) preg_replace('/[^A-Za-z0-9_-]/', '', $name);
-        $this->contentDirname = match ($type) {
-            File::FILETYPE_POST => Configuration::BLOG_DIRNAME_POSTS,
-            File::FILETYPE_PAGE => Configuration::BLOG_DIRNAME_PAGES,
-            File::FILETYPE_ERROR => Configuration::BLOG_DIRNAME_ERRORS,
-        };
+        $title = $data['title'] ?? '';
+        if (empty($title)) {
+            $title = 'No title';
+        }
+        $name = (string) preg_replace('/[^A-Za-z0-9_-]/', '', $name);
+        if (empty($name)) {
+            return;
+        }
+        $this->contentTitle = $title;
+        $this->contentName = $name;
+        $this->contentDirname = $type;
     }
 
     public function htmltitle(): string
@@ -108,8 +128,8 @@ final class Main
     public function menu(): string
     {
         $res = "<menu>";
-        $res .= $this->file->listData(File::FILETYPE_PAGE, File::CARD_HTML);
-        $res .= File::datacard('', File::CARD_HTML, 'index.php?debug=y', '🐞 Debug', '', 0);
+        $res .= $this->file->listData(FileTypeEnum::Pages, File::CARD_HTML);
+        $res .= File::datacard(FileTypeEnum::Pages, File::CARD_HTML, 'index.php?debug=y', '🐞 Debug', '', 0);
         $res .= '</menu>';
         return $res;
     }
@@ -128,10 +148,10 @@ final class Main
     public function md2html(string $md): string
     {
         $raw = str_replace('<archive_duration>', Helper::niceInterval(Configuration::BLOG_ARCHIVE_TIME), $md);
-        $raw = str_replace('<list posts archived>', $this->file->listData(File::FILETYPE_POST, File::CARD_MD_BIG, true), $raw);
-        $raw = str_replace('<list posts current>', $this->file->listData(File::FILETYPE_POST, File::CARD_MD_BIG, false), $raw);
-        $raw = str_replace('<list posts last5>', $this->file->listData(File::FILETYPE_POST, File::CARD_MD_BIG, false), $raw);
-        $raw = str_replace('<list pages nohome>', $this->file->listData(File::FILETYPE_PAGE, File::CARD_MD_BIG), $raw);
+        $raw = str_replace('<list posts archived>', $this->file->listData(FileTypeEnum::Posts, File::CARD_MD_BIG, true), $raw);
+        $raw = str_replace('<list posts current>', $this->file->listData(FileTypeEnum::Posts, File::CARD_MD_BIG, false), $raw);
+        $raw = str_replace('<list posts last5>', $this->file->listData(FileTypeEnum::Posts, File::CARD_MD_BIG, false), $raw);
+        $raw = str_replace('<list pages nohome>', $this->file->listData(FileTypeEnum::Pages, File::CARD_MD_BIG), $raw);
         $raw = str_replace('http://blog.example.com', Configuration::SITE_URL, $raw);
         $converter = new \League\CommonMark\GithubFlavoredMarkdownConverter(Configuration::BLOG_MD_CONVERTER_CONFIG);
         $html = $converter->convert($raw);
@@ -183,7 +203,7 @@ final class Main
         }
 
         $rawContent = $this->cacheBypass(
-            $this->contentDirname,
+            $this->contentDirname->value,
             $this->contentName,
         );
         // Hmmm... something is missing... sanitizer, maybe?

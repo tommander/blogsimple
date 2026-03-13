@@ -38,16 +38,14 @@ final class Logger extends AbstractLogger
     #[\Override]
     public function log($level, string|\Stringable $message, array $context = []): void
     {
-        $levelText = match ($level) {
-            \Psr\Log\LogLevel::EMERGENCY => 'EMERGENCY',
-            \Psr\Log\LogLevel::ALERT => 'ALERT',
-            \Psr\Log\LogLevel::CRITICAL => 'CRITICAL',
-            \Psr\Log\LogLevel::ERROR => 'ERROR',
-            \Psr\Log\LogLevel::WARNING => 'warning',
-            \Psr\Log\LogLevel::NOTICE => 'notice',
-            \Psr\Log\LogLevel::INFO => 'info',
-            default => '',
-        };
+        $logLevel = LogLevelEnum::DEBUG;
+        if (is_int($level) || is_string($level)) {
+            $logLevelMaybe = LogLevelEnum::tryFrom($level);
+            if ($logLevelMaybe instanceof LogLevelEnum) {
+                $logLevel = $logLevelMaybe;
+            }
+        }
+        $levelText = $logLevel->asString();
         $dateText = date('c');
         $prefix = sprintf('{%1$s}[%2$s] ', $dateText, $levelText);
         $messageReady = preg_replace_callback(
