@@ -1,5 +1,7 @@
 # Blog (simple)
 
+[![PHP QA](https://github.com/tommander/blogsimple/actions/workflows/php-qa.yml/badge.svg)](https://github.com/tommander/blogsimple/actions/workflows/php-qa.yml)
+
 Simple [PHP](https://php.net/) [blog](https://en.wikipedia.org/wiki/Blog) with [Markdown parser](https://github.com/league/commonmark). No [Javascript](https://developer.mozilla.org/en-US/docs/Glossary/JavaScript), only [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) and [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS).
 
 > [!IMPORTANT]
