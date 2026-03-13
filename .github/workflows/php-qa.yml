@@ -11,7 +11,7 @@ on:
       - 'composer.lock'
       - 'phpcs.xml'
       - 'psalm.xml'
-      - 'php.yml'
+      - 'php-qa.yml'
   pull_request:
     branches: 
       - master
