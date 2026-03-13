@@ -3,7 +3,8 @@ name: PHP QA
 on:
   push:
     branches: 
-      - main
+      - master
+      - development
     paths:
       - '**.php'
       - 'composer.json'
