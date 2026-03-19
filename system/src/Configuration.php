@@ -15,12 +15,8 @@ final class Configuration
      *
      * Without trailing slash.
      */
-    public const SITE_URL = 'http://localhost:3737';
+    public const SITE_URL = 'https://localhost';
 
-    /**
-     * BCP 47 language tag
-     */
-    public const BLOG_LOCALE = 'en-GB';
     /**
      * Blog title (header + title)
      */
@@ -28,7 +24,7 @@ final class Configuration
     /**
      * Blog copyright (footer)
      */
-    public const BLOG_FOOTER = '&copy; 2026 Já.';
+    public const BLOG_FOOTER = '&copy; 2026 Me.';
 
     /**
      * Root folder of the blog ("where root composer.json is")
@@ -47,7 +43,10 @@ final class Configuration
      * Directory for log files (txt)
      */
     public const BLOG_DIRNAME_LOGS = 'logs';
-
+    /**
+     * Directory for partials = website content parts (php)
+     */
+    public const BLOG_DIRNAME_PARTIALS = 'partials';
     /**
      * Directory for public files
      */
@@ -60,10 +59,6 @@ final class Configuration
      * Directory for public posts (md)
      */
     public const BLOG_DIRNAME_POSTS = 'posts';
-    /**
-     * Directory for public errors (md)
-     */
-    public const BLOG_DIRNAME_ERRORS = 'errors';
 
     /**
      * Path to system directory
@@ -83,6 +78,10 @@ final class Configuration
      */
     public const BLOG_DIR_LOGS = self::BLOG_DIR_SYSTEM . self::BLOG_DIRNAME_LOGS . '/';
     /**
+     * Path to system screens directory
+     */
+    public const BLOG_DIR_PARTIALS = self::BLOG_DIR_SYSTEM . self::BLOG_DIRNAME_PARTIALS . '/';
+    /**
      * Path to public pages directory
      */
     public const BLOG_DIR_PAGES = self::BLOG_DIR_PUBLIC . self::BLOG_DIRNAME_PAGES . '/';
@@ -90,10 +89,6 @@ final class Configuration
      * Path to public posts directory
      */
     public const BLOG_DIR_POSTS = self::BLOG_DIR_PUBLIC . self::BLOG_DIRNAME_POSTS . '/';
-    /**
-     * Path to public errors directory
-     */
-    public const BLOG_DIR_ERRORS = self::BLOG_DIR_PUBLIC . self::BLOG_DIRNAME_ERRORS . '/';
 
     /**
      * Number of seconds, after which a post is shown in Archive rather that Posts.
@@ -103,7 +98,7 @@ final class Configuration
     /**
      * Number of seconds after which a cache file expires
      */
-    public const BLOG_CACHE_TTL = 60; // post/page/error rendered HTML refreshes **60 s** after previous modification
+    public const BLOG_CACHE_TTL = 60; // post/page rendered HTML refreshes **60 s** after previous modification
     /**
      * Up to how many pages to show in navigation under header.
      * Minimum is 3 due to pre-inserted pages Home, Posts, Archive.
@@ -130,10 +125,14 @@ final class Configuration
      * @var bool
      */
     public const BLOG_NO_CACHE = true;
-    /**
-     * Disables logging.
-     *
-     * @var bool
-     */
-    public const BLOG_NO_LOG = false;
+
+    /* * * * * *  * * * * *
+     * TRANSLATABLE TEXTS *
+     * * * * * *  * * * * */
+
+    public const TEXT_CACHE_DISABLED_HTML = '<samp>Cache Disabled</samp>';
+    public const TEXT_CACHE_STATS_HTML = '<samp>Hits: %1$d</samp> <samp>Misses: %2$d</samp> <samp>CS: %5$s</samp> <samp>CR: %3$s</samp> <samp>CW: %4$s</samp>';
+    public const TEXT_CACHE_DISABLED_ERROR = 'Cannot create Cache instance when cache is disabled in config.';
+    public const TEXT_MAIN_SOURCE_FILE_ERROR_HTML  = '<h1>Error</h1><p>Source file <code>%1$s</code> does not exist or is not readable.</p>';
+    public const TEXT_MAIN_DEBUG_PAGE_HTML = '<h1>Debug</h1><p>This page can be used by developers/testers - you can find it in <code>/system/src/Main.php</code> method <code>Main::debugPage()</code>. Add, edit and delete whatever you want below.</p>%1$s';
 }

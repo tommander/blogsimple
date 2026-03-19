@@ -1,3 +1,0 @@
-# Yum
-
-Yum yum!

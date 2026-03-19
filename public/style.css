@@ -1,394 +1,54 @@
 /* :root {
 } */
 html {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
-*,::after,::before {
-    box-sizing:inherit;
+
+*,
+::after,
+::before {
+  box-sizing: inherit;
 }
-*, ::before, ::after {
+
+/* *,
+::before,
+::after {
   margin: 0;
   padding: 0;
-}
-body {
-    background-color: #eee;
-    font-family: serif;
-    font-size: large;
-}
-/* em,i,cite,dfn,var {
-  font-size: medium;
 } */
-pre,code,kbd,samp {
-  font-family: monospace;
-  /* font-size: small; */
-}
-label,legend,figcaption,caption,nav {
-  font-family: sans-serif;
-}
-h1,h2,h3,h4,h5,h6,.dialog-heading {
-  font-family: sans-serif;
-}
-header > a {
-  font-family: cursive;
-  font-size: xxx-large;
-  text-decoration: none;
-  color: #333;
-  /* padding: 0.5rem 1rem; */
-}
 
-body:has(dialog[open]) > #container > *:not(dialog) {
-  display: none;
-  
-}
-#container {
-    max-width: 1024px;
-  margin: auto;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+body {
   background-color: #eee;
 }
-header, footer {
+
+#container {
+  max-width: 1024px;
+  margin: auto;
+}
+
+header, nav, footer {
   text-align: center;
-  display: flex;
-  justify-content: center;
-}
-nav {
-    margin-top: 1rem;
-}
-nav, footer {
-    background: linear-gradient(to left, rgba(0,0,0,0), rgba(0,0,0,0.05), rgba(0,0,0,0));
-    padding: 0.5rem 0;
-}
-footer {
-  font-size: medium;
-  display: flex;
-  flex-direction: column;
-}
-nav > menu {
-    display: flex;
-    justify-content: center;
-}
-nav > menu li {
-    display: inline-block;
-}
-nav > menu li > a,
-nav > menu li > a:any-link
-{
-    text-decoration: none;
-    margin: 0 0.5rem;
-    color: #333;
-}
-nav > menu li > a:hover {
-    text-decoration: underline;
-    color: #000;
-}
-nav > menu li > a:active {
-    color: #000;
-    text-decoration: underline;
-}
-hr {
-  background: linear-gradient(to left, #fff, #777, #fff);
-  height: 1px;
-  border: none;
-}
-hr.medium {
-  height: 2px;
-}
-main {
-    margin: 1rem;
-    overflow: auto;
-}
-/* footer {
-} */
-
-/* ========================= */
-ul,ol,menu {
-  margin-left: 1em;
-}
-*:not(li) > ul,
-*:not(li) > ol,
-*:not(li) > menu {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-nav menu {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-h1 {
-    font-size: xx-large;
-    color: #005;
-}
-h2,.dialog-heading {
-    font-size: x-large;
-    color: #050;
-}
-h3 {
-    font-size: x-large;
-    color: #055;
-}
-h4 {
-    font-size: larger;
-    color: #550;
-}
-h5 {
-    font-size: large;
-    color: #505;
-}
-h6 {
-    font-size: large;
-    color: #500;
 }
 
-p {
-  line-height: 1.33;
-  margin: 1em 0;
+header {
+  font-size: xx-large;
 }
+
+nav menu li {
+  display: inline;
+  margin: 0 0.5rem;
+}
+
+.message {
+  text-align: center;
+  font-weight: bold;
+}
+
 table {
   border-collapse: collapse;
-  margin: 1em 0;
 }
+
 th,td {
-  border: 1px solid #999;
+  border: 1px solid black;
   padding: 0.25rem 0.5rem;
-}
-th {
-  background-color: #ddd;
-}
-table > caption {
-  width: fit-content;
-  margin: auto;
-  border: 1px solid #999;
-  border-bottom: none;
-  background-color: #ddd;
-  padding: 0.25rem 0.5rem 0.13rem 0.5rem;
-}
-
-fieldset {
-    padding: 0.5rem;
-}
-button, input[type=submit], input[type=reset], input[type=button] {
-    padding: 0.125rem 0.5rem;
-}
-dt {
-    font-style: italic;
-}
-dd {
-    margin-left: 0.25rem;
-}
-dd::before {
-    content: '↳ ';
-}
-blockquote {
-    border-left: 4px double #bbb;
-    padding: 0.5rem 0rem 0.5rem 0.5rem;
-    margin: 1rem 0;
-    background-color: #ddd;
-    border-radius: 8px;
-}
-blockquote > p:first-child {
-  margin-top: 0;
-}
-blockquote > p:last-child {
-  margin-bottom: 0;
-}
-summary {
-    display: inline-block;
-}
-details {
-    padding: 0.25rem 0.5rem;
-}
-details.fit {
-    width: fit-content;
-}
-details.themed {
-    background: #ddd;
-    border: 1px solid #bbb;
-}
-details:open summary {
-    display: block;
-    margin-bottom: 1rem;
-}
-details.icon summary::before {
-    content: '📕 ';
-}
-details.icon:open summary::before {
-    content: '📖 ';
-}
-details.buttoned summary {
-  display: inline-block;
-  border: 1px solid #777;
-  background-color: #ccc;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: medium;
-}
-
-form, pre, fieldset,h1,h2,h3,h4,h5,h6,.dialog-heading,footer,nav {
-  margin: 1rem 0;
-}
-h1 {
-  margin-top: 0;
-}
-
-pre {
-    border: 1px solid #777;
-    border-left-style: double;
-    border-left-width: 6px;
-    border-right-style: double;
-    border-right-width: 6px;
-    background-color: #ccc;
-    padding: 0.5rem 1rem;
-    font-size: small;
-}
-body:has(dialog[open]) {
-  overflow: hidden;
-}
-dialog {
-  position: fixed;
-  margin: auto;
-  padding: 1rem 2rem;
-}
-dialog::backdrop {
-  /* background-color: rgba(0, 0, 0, 0.75); */
-  backdrop-filter: blur(2px);
-}
-kbd,samp {
-  border: 1px solid #bbb;
-  border-radius: 4px;
-  background: #fff;
-  padding: 0.13rem 0.25rem;
-}
-samp {
-  color: #006;
-  border-color: #00a;
-}
-samp::before {
-  content: ">";
-  color: #006;
-  font-size: x-small;
-  margin-right: 0.5rem;
-}
-kbd {
-  color: #060;
-  border-color: #0a0;
-}
-kbd::before {
-  content: "$";
-  color: #060;
-  font-size: x-small;
-  margin-right: 0.5rem;
-}
-del {
-  color: #b22;
-}
-ins {
-  color: #464;
-  text-decoration: none;
-}
-var {
-  color: #a00;
-}
-meter,progress {
-  width: 5em;
-}
-a.external::after {
-  content: '🌏 ';
-  text-decoration: none;
-  font-size: x-small;
-  vertical-align: super;
-}
-a.safe::after {
-  content: '✅ ';
-  text-decoration: none;
-  font-size: x-small;
-  vertical-align: super;
-}
-a.unsafe::after {
-  content: '⚠️ ';
-  text-decoration: none;
-  font-size: x-small;
-  vertical-align: super;
-}
-select {
-  padding: 0.25rem 0.5rem;
-}
-input, textarea {
-  padding: 0.13rem 0.25rem;
-}
-
-abbr {
-  text-decoration: dotted black 2px underline;
-}
-time::before {
-  content: "🗓️ ";
-}
-dialog {
-  border: 2px solid #333;
-  border-top: 6px double #333;
-  box-shadow: 0 0 12px #333;
-}
-p.padBottom {
-  margin-bottom: 1rem;
-}
-.postcard {
-  border: 1px solid #ccc;
-  margin: 1rem 0;
-  padding: 0.5rem 0.75rem;
-}
-.postcard-meta {
-  margin-bottom: 0.5rem;
-}
-.postcard-title {
-  font-size: large;
-}
-
-/* img[alt$="Vertical image on right."] {
-  float: right;
-}
-
-img[alt$="Vertical image on left."] {
-  float: left;
-  max-height: 256px;
-  max-width: 128px;
-  margin: 1rem 1rem 1rem 2rem;
-}
-
-img[alt$="Vertical image on center."] {
-  max-height: 256px;
-  max-width: 128px;
-  margin: 1rem 2rem 1rem 2rem;
-} */
-
-div.imgcenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 1rem 2rem 1rem 2rem;
-}
-
-div.imgcenter img {
-  max-height: 256px;
-  max-width: 128px;
-  margin: 1rem 0;
-}
-
-div.imgleft {
-  float: left;
-  max-height: 256px;
-  max-width: 128px;
-  margin: 1rem 2rem 1rem 1rem;
-}
-
-div.imgright {
-  float: right;
-  max-height: 256px;
-  max-width: 128px;
-  margin: 1rem 2rem 1rem 1rem;
-}
-
-div.imgleft img,
-div.imgright img,
-div.imgcenter img {
-  width: 100%;
 }

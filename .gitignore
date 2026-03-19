@@ -6,3 +6,5 @@ bordel/
 composer.lock
 lighttpd.conf
 public/images/lighttpd.png
+**/*.pem
+**/*.key

@@ -1,51 +1,74 @@
 <?php
 
+/**
+ * Blog's main index php file.
+ */
+
 declare(strict_types=1);
 
-use Tommander\BlogSimple\Diagnostics;
+use Tommander\BlogSimple\Configuration;
 use Tommander\BlogSimple\Main;
 
 error_reporting(E_ALL);
 
+$errorFileNotFoundHtml = '<h1>Internal App Error</h1><p>%1$s file <q>%2$s</q> does not exist.</p>';
+$errorMainMissing = '<h1>Internal App Error</h1><p>Class <q>Main</q> is not autoloaded.</p>';
+
 $fileAutoload = __DIR__ . '/../vendor/autoload.php';
 if (!file_exists($fileAutoload)) {
-    printf('<h1>Internal App Error</h1><p>Autoload file <q>%1$s</q> does not exist.</p>', htmlspecialchars($fileAutoload));
+    printf($errorFileNotFoundHtml, 'Autoload', htmlspecialchars($fileAutoload));
     exit(1);
 }
 require $fileAutoload;
 
-$wantDiagnosticsRaw = $_GET['diagnostics'] ?? null;
-$wantDiagnostics = (is_string($wantDiagnosticsRaw) ? (strtolower(trim($wantDiagnosticsRaw)) === 'true') : false);
-if ($wantDiagnostics) {
-    try {
-        $diagnostics = new Diagnostics();
-        $diagnose = $diagnostics->run() ? 'SUCCESS' : 'ERROR';
-        echo '<p>' . htmlspecialchars($diagnose) . '</p><pre>' . htmlspecialchars($diagnostics->exportLog()) . '</pre>';
-    } catch (\Throwable $error) {
-        echo '<p>' . htmlspecialchars($error->__toString()) . '</p>';
-    }
-    exit(0);
-}
-
-$fileHeader = __DIR__ . '/../system/partials/header.php';
-if (!file_exists($fileHeader)) {
-    printf('<h1>Internal App Error</h1><p>Header file <q>%1$s</q> does not exist.</p>', htmlspecialchars($fileHeader));
-    exit(1);
-}
-
-$fileFooter = __DIR__ . '/../system/partials/footer.php';
-if (!file_exists($fileFooter)) {
-    printf('<h1>Internal App Error</h1><p>Footer file <q>%1$s</q> does not exist.</p>', htmlspecialchars($fileFooter));
-    exit(1);
-}
-
 if (!class_exists('Tommander\BlogSimple\Main')) {
-    echo '<h1>Internal App Error</h1><p>Class <q>Main</q> is not autoloaded.</p>';
+    echo $errorMainMissing;
     exit(1);
 }
 
-$m = new Main();
+$fileHeader = Configuration::BLOG_DIR_PARTIALS . 'header.php';
+if (!file_exists($fileHeader)) {
+    printf($errorFileNotFoundHtml, 'Header', htmlspecialchars($fileHeader));
+    exit(1);
+}
 
+$fileNav = Configuration::BLOG_DIR_PARTIALS . 'nav.php';
+if (!file_exists($fileNav)) {
+    printf($errorFileNotFoundHtml, 'Navigation', htmlspecialchars($fileNav));
+    exit(1);
+}
+
+$fileMain = Configuration::BLOG_DIR_PARTIALS . 'main.php';
+if (!file_exists($fileMain)) {
+    printf($errorFileNotFoundHtml, 'Main', htmlspecialchars($fileMain));
+    exit(1);
+}
+
+$fileFooter = Configuration::BLOG_DIR_PARTIALS . 'footer.php';
+if (!file_exists($fileFooter)) {
+    printf($errorFileNotFoundHtml, 'Footer', htmlspecialchars($fileFooter));
+    exit(1);
+}
+
+$main = Main::getInstance();
+
+?><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
+    <link rel="stylesheet" href="style.css">
+    <title><?= $main->htmltitle() ?></title>
+</head>
+<body>
+    <div id="container">
+<?php
 include $fileHeader;
-$m->render();
+include $fileNav;
+include $fileMain;
 include $fileFooter;
+?>
+    </div>
+</body>
+</html>

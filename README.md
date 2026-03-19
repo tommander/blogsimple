@@ -11,6 +11,7 @@ Simple [PHP](https://php.net/) [blog](https://en.wikipedia.org/wiki/Blog) with [
 
 **\*** = dev-only
 
+- `php >= 8.2`
 - [league/commonmark](https://github.com/league/commonmark)
 - [psr/log](https://github.com/psr/log) **\***
 - [vimeo/psalm](https://github.com/vimeo/psalm) **\***
@@ -22,6 +23,14 @@ Simple [PHP](https://php.net/) [blog](https://en.wikipedia.org/wiki/Blog) with [
 1. `git clone https://github.com/tommander/blogsimple.git`
 2. `composer install`
 
+## Configuration
+
+
+
+## Content & Design
+
+
+
 ## Run lighttpd local server
 
 Prerequisite: [lighttpd](https://www.lighttpd.net/).
@@ -30,6 +39,14 @@ Prerequisite: [lighttpd](https://www.lighttpd.net/).
 2. Edit lighttpd.conf
 3. `lighttpd -tt -f lighttpd.conf`
 4. `lighttpd -D -f lighttpd.conf`
+
+## Documentation
+
+### Setup
+
+### Maintenance
+
+### ...
 
 ## License
 

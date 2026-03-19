@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Tommander\BlogSimple;
 
-use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LoggerInterface;
-
 /**
  * Caching of HTML files parsed from Markdown.
  */
 final class Cache
 {
-    use LoggerAwareTrait;
-
     /**
      * Number of hits = cached item served i/o needing to parse MD
      */
@@ -31,6 +26,31 @@ final class Cache
      */
     private int $cacheWrite = 0;
 
+    public static function niceBytes(int $bytes): string
+    {
+        if ($bytes < 0) {
+            $bytes = -1 * $bytes;
+        }
+
+        if ($bytes < (2 ** 10)) {
+            return sprintf('%d B', $bytes);
+        }
+
+        if ($bytes < (2 ** 20)) {
+            return sprintf('%d KiB', intdiv($bytes, 2 ** 10));
+        }
+
+        if ($bytes < (2 ** 30)) {
+            return sprintf('%d MiB', intdiv($bytes, 2 ** 20));
+        }
+
+        if ($bytes < (2 ** 40)) {
+            return sprintf('%d GiB', intdiv($bytes, 2 ** 30));
+        }
+
+        return sprintf('%d TiB', intdiv($bytes, 2 ** 40));
+    }
+
     /**
      * Returns a simple HTML with cache statistics, if the given param is a valid Cache instance.
      * Otherwise returns "cache disabled".
@@ -40,28 +60,35 @@ final class Cache
     public static function htmlStatus(mixed $instance): string
     {
         if (!($instance instanceof self)) {
-            return '<samp>Cache Disabled</samp>';
+            return Configuration::TEXT_CACHE_DISABLED_HTML;
         }
 
         return sprintf(
-            '<samp>Hits: %1$d</samp> <samp>Misses: %2$d</samp> <samp>CS: %5$s</samp> <samp>CR: %3$s</samp> <samp>CW: %4$s</samp>',
+            Configuration::TEXT_CACHE_STATS_HTML,
             $instance->getHits(),
             $instance->getMisses(),
-            Helper::niceBytes($instance->getCacheRead()),
-            Helper::niceBytes($instance->getCacheWrite()),
-            Helper::niceBytes(Cache::cacheSize()),
+            self::niceBytes($instance->getCacheRead()),
+            self::niceBytes($instance->getCacheWrite()),
+            self::niceBytes(Cache::cacheSize()),
         );
     }
 
     /**
      * Constructor of Cache. Cannot be instantiated when caching is disabled in Configuration class.
      */
-    public function __construct(LoggerInterface|null $logger)
+    public function __construct()
     {
         if (Configuration::BLOG_NO_CACHE === true) {
-            throw new \Error('Cannot create Cache instance when cache is disabled in config.');
+            throw new \Error(Configuration::TEXT_CACHE_DISABLED_ERROR);
         }
-        $logger && $this->setLogger($logger);
+    }
+
+    public function processActions(): void
+    {
+        $cache = $_GET['cache'] ?? null;
+        if ($cache === 'reset') {
+            $this->reset();
+        }
     }
 
     public function getHits(): int
@@ -105,18 +132,21 @@ final class Cache
         return $total;
     }
 
+    public static function cacheFilename(string $dirname, string $filename): string
+    {
+        return sprintf('cache_%1$s_%2$s.html', $dirname, $filename);
+    }
+
     /**
      * Deletes all cache files (.html)
 
-     * @param FileTypeEnum|null $dirname If `null`, delete cache files in all folders (posts, pages, errors)
+     * @param FileTypeEnum|null $dirname If `null`, delete cache files in all folders (posts, pages)
      * @param non-empty-string|null $filename
      */
     public function reset(FileTypeEnum|null $dirname = null, string|null $filename = null): void
     {
         if (($dirname instanceof FileTypeEnum) && is_string($filename)) {
-            $this->logger && $this->logger->info('Resetting specific files "{dir}" and "{file}".', ['dir' => $dirname->value, 'file' => $filename]);
-            $cacheFile = sprintf('cache_%1$s_%2$s.html', $dirname->value, $filename);
-            $list = [$cacheFile];
+            $list = [self::cacheFilename($dirname->value, $filename)];
         } else {
             $list = scandir(Configuration::BLOG_DIR_CACHE, SCANDIR_SORT_NONE);
         }
@@ -132,28 +162,22 @@ final class Cache
 
             if (is_file($oldPath) && is_readable($oldPath) && is_writeable($oldPath)) {
                 unlink($oldPath);
-                $this->logger && $this->logger->info('Cache file "{old}" deleted.', ['old' => $oldPath]);
                 continue;
             }
-            $this->logger && $this->logger->warning('Cache file "{old}" NOT deleted.', ['old' => $oldPath]);
         }
     }
 
     /**
      * Retrieve a cache file
      *
-     * @param FileTypeEnum $dirName
-     * @param non-empty-string $fileName
+     * @param FileTypeEnum $dirname
+     * @param non-empty-string $filename
      *
      * @return string|null Returns the content of the cache file if found and not expired, `null` otherwise.
      */
-    public function get(FileTypeEnum $dirName, string $fileName): string|null
+    public function get(FileTypeEnum $dirname, string $filename): string|null
     {
-        $cacheFile = Configuration::BLOG_DIR_CACHE . sprintf(
-            'cache_%1$s_%2$s.html',
-            $dirName->value,
-            $fileName,
-        );
+        $cacheFile = Configuration::BLOG_DIR_CACHE . self::cacheFilename($dirname->value, $filename);
 
         if (
             file_exists($cacheFile) &&

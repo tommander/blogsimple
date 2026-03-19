@@ -1,25 +1,19 @@
 <?php
+
 /**
  * Blog footer file.
- *
- * @psalm-suppress UnnecessaryVarAnnotation
- * @var \Tommander\BlogSimple\Main $m
  */
+
+$m = Tommander\BlogSimple\Main::getInstance();
 ?>
-        </main>
-        <footer>
-            <div>
-                <?= htmlentities(string: \Tommander\BlogSimple\Configuration::BLOG_FOOTER, double_encode: false) ?>
-            </div>
-            <div>
-                <small><samp><?php
-                echo htmlspecialchars(Tommander\BlogSimple\Helper::niceIntervalNs($m->nanosecondsFromBlogRenderStart()));
-                ?></samp></small>
-            </div>
-            <div>
-                <small><?= \Tommander\BlogSimple\Cache::htmlStatus($m->cache); ?></small>
-            </div>
-        </footer>
+<footer>
+    <div>
+        <?= htmlentities(string: \Tommander\BlogSimple\Configuration::BLOG_FOOTER, double_encode: false) ?>
     </div>
-</body>
-</html>
+    <div>
+        <?= \Tommander\BlogSimple\File::datacard(\Tommander\BlogSimple\FileTypeEnum::Pages, \Tommander\BlogSimple\File::CARD_HTMLAONLY, 'index.php?debug=y', 'Debug', '', 0) ?>
+    </div>
+    <div>
+        <small><?= \Tommander\BlogSimple\Cache::htmlStatus($m->cache); ?></small>
+    </div>
+</footer>
