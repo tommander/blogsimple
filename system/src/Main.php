@@ -137,6 +137,9 @@ final class Main
         }
 
         $raw = (string) file_get_contents($sourceFile);
+        if ($dirName === FileTypeEnum::Posts) {
+            $raw .= '<div><br><small>🗓️ Last modified: 21.12.2012 12:21</small></div>';
+        }
         return $this->md2html($raw);
     }
 

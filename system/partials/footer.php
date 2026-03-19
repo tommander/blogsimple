@@ -7,11 +7,11 @@
 $m = Tommander\BlogSimple\Main::getInstance();
 ?>
 <footer>
-    <div>
+    <div class="copyleft">
+        <span class="copyleft-icon">&copy;</span>
+        <span class="copyleft-text">
         <?= htmlentities(string: \Tommander\BlogSimple\Configuration::BLOG_FOOTER, double_encode: false) ?>
-    </div>
-    <div>
-        <?= \Tommander\BlogSimple\File::datacard(\Tommander\BlogSimple\FileTypeEnum::Pages, \Tommander\BlogSimple\File::CARD_HTMLAONLY, 'index.php?debug=y', 'Debug', '', 0) ?>
+        </span>
     </div>
     <div>
         <small><?= \Tommander\BlogSimple\Cache::htmlStatus($m->cache); ?></small>

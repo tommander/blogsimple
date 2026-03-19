@@ -34,6 +34,10 @@ header {
   font-size: xx-large;
 }
 
+footer {
+  margin-top: 1rem;
+}
+
 nav menu li {
   display: inline;
   margin: 0 0.5rem;
@@ -51,4 +55,21 @@ table {
 th,td {
   border: 1px solid black;
   padding: 0.25rem 0.5rem;
+}
+
+.copyleft {
+  display: inline-block;
+  border: 1px solid #444;
+  color: #444;
+  background-color: #ddd;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.copyleft-icon {
+  border-left: 1px solid rgb(68, 68, 68);
+  padding-left: 0.25rem;
+  margin-right: 0.25rem;
+  transform: rotateY(0.5turn);
+  display: inline-block;
 }

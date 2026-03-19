@@ -83,9 +83,6 @@ final class File
         $path = $type->path() . $name . '.md';
         $mtime = (int) filemtime($path);
         $content = (string) file_get_contents($path);
-        if ($type === FileTypeEnum::Posts) {
-            $content .= '<div>🗓️</div>';
-        }
         $title = 'No Title';
         if (preg_match('/\n?#\s*(?<title>[^\r\n\0$]+)\s*/', $content, $matches) === 1) {
             $title = $matches['title'];

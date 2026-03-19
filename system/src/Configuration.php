@@ -24,7 +24,7 @@ final class Configuration
     /**
      * Blog copyright (footer)
      */
-    public const BLOG_FOOTER = '&copy; 2026 Me.';
+    public const BLOG_FOOTER = '2026 Me.';
 
     /**
      * Root folder of the blog ("where root composer.json is")
@@ -130,7 +130,7 @@ final class Configuration
      * TRANSLATABLE TEXTS *
      * * * * * *  * * * * */
 
-    public const TEXT_CACHE_DISABLED_HTML = '<samp>Cache Disabled</samp>';
+    public const TEXT_CACHE_DISABLED_HTML = '';
     public const TEXT_CACHE_STATS_HTML = '<samp>Hits: %1$d</samp> <samp>Misses: %2$d</samp> <samp>CS: %5$s</samp> <samp>CR: %3$s</samp> <samp>CW: %4$s</samp>';
     public const TEXT_CACHE_DISABLED_ERROR = 'Cannot create Cache instance when cache is disabled in config.';
     public const TEXT_MAIN_SOURCE_FILE_ERROR_HTML  = '<h1>Error</h1><p>Source file <code>%1$s</code> does not exist or is not readable.</p>';
