@@ -78,7 +78,6 @@ final class Cache
      */
     public function __construct()
     {
-        /** @psalm-suppress TypeDoesNotContainType */
         if (Configuration::BLOG_NO_CACHE === true) {
             throw new \Error(Configuration::TEXT_CACHE_DISABLED_ERROR);
         }

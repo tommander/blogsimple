@@ -31,7 +31,6 @@ final class Main
 
     private function __construct()
     {
-        /** @psalm-suppress TypeDoesNotContainType */
         $this->cache = (Configuration::BLOG_NO_CACHE === true) ? null : new Cache();
         $this->file = new File();
 
