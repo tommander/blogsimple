@@ -15,16 +15,24 @@ final class Configuration
      *
      * Without trailing slash.
      */
-    public const SITE_URL = 'https://localhost';
+    public const SITE_URL = 'http://localhost:2345';
 
     /**
      * Blog title (header + title)
      */
     public const BLOG_TITLE = 'Blog';
     /**
-     * Blog copyright (footer)
+     * Blog author icon (footer)
      */
-    public const BLOG_FOOTER = '2026 Me.';
+    public const BLOG_FOOTER_ICON = '🧙‍♂️';
+    /**
+     * Blog author (footer)
+     */
+    public const BLOG_FOOTER = 'John "Anonymous" Doe';
+    /**
+     * Blog author website (footer)
+     */
+    public const BLOG_FOOTER_URL = 'http://example.com';
 
     /**
      * Root folder of the blog ("where root composer.json is")
@@ -40,10 +48,6 @@ final class Configuration
      */
     public const BLOG_DIRNAME_CACHE = 'cache';
     /**
-     * Directory for log files (txt)
-     */
-    public const BLOG_DIRNAME_LOGS = 'logs';
-    /**
      * Directory for partials = website content parts (php)
      */
     public const BLOG_DIRNAME_PARTIALS = 'partials';
@@ -52,13 +56,9 @@ final class Configuration
      */
     public const BLOG_DIRNAME_PUBLIC = 'public';
     /**
-     * Directory for public pages (md)
+     * Directory for articles (md)
      */
-    public const BLOG_DIRNAME_PAGES = 'pages';
-    /**
-     * Directory for public posts (md)
-     */
-    public const BLOG_DIRNAME_POSTS = 'posts';
+    public const BLOG_DIRNAME_ARTICLES = 'articles';
 
     /**
      * Path to system directory
@@ -74,21 +74,13 @@ final class Configuration
      */
     public const BLOG_DIR_CACHE = self::BLOG_DIR_SYSTEM . self::BLOG_DIRNAME_CACHE . '/';
     /**
-     * Path to system logs directory
-     */
-    public const BLOG_DIR_LOGS = self::BLOG_DIR_SYSTEM . self::BLOG_DIRNAME_LOGS . '/';
-    /**
      * Path to system screens directory
      */
     public const BLOG_DIR_PARTIALS = self::BLOG_DIR_SYSTEM . self::BLOG_DIRNAME_PARTIALS . '/';
     /**
      * Path to public pages directory
      */
-    public const BLOG_DIR_PAGES = self::BLOG_DIR_PUBLIC . self::BLOG_DIRNAME_PAGES . '/';
-    /**
-     * Path to public posts directory
-     */
-    public const BLOG_DIR_POSTS = self::BLOG_DIR_PUBLIC . self::BLOG_DIRNAME_POSTS . '/';
+    public const BLOG_DIR_ARTICLES = self::BLOG_DIR_PUBLIC . self::BLOG_DIRNAME_ARTICLES . '/';
 
     /**
      * Number of seconds, after which a post is shown in Archive rather that Posts.

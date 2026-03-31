@@ -29,9 +29,7 @@ Simple [PHP](https://php.net/) [blog](https://en.wikipedia.org/wiki/Blog) with [
 |
 +---+ public/ # Web document root and place for all website assets
 |   |
-|   +---+ pages/ # Pages in Markdown format, e.g. "home.md"
-|   |
-|   +---+ posts/ # Posts in Markdown format, e.g. "bad-ass.md"
+|   +---+ articles/ # Articles in Markdown format, e.g. "home.md"
 |   |
 |   +---+ index.php # Web main index file
 |   |
@@ -40,8 +38,6 @@ Simple [PHP](https://php.net/) [blog](https://en.wikipedia.org/wiki/Blog) with [
 +---+ system/ # System folder for backend code and data
 |   |
 |   +---+ cache/ # Cached HTML files (parsed Markdown files)
-|   |
-|   +---+ logs/ # Logs
 |   |
 |   +---+ partials/ # Partial HTML files in .php
 |   |
@@ -60,18 +56,22 @@ Check `system/src/Configuration.php` for blog url, title etc. You probably don't
 
 The HTML starts in `public/index.php`, which loads the partials (header, navigation, contents and footer) in `system/partials/`.
 
-Class `Main` is the one that prepares page contents. It just tries to find the requested page/post (falling back to homepage),
-do some replacements (e.g. for list of posts) and then it transforms MD to HTML.
+Class `Main` is the one that prepares page contents. It just tries to find the requested article (falling back to homepage),
+do some replacements and then it transforms MD to HTML.
 
 There are simple styles in `public/style.css` that can be moved in its own folder and heavily improved. This is just a default.
 
-## Pages and Posts
+## Articles
 
 Create/edit/rename/move/copy/delete respective .md files in your favourite editor.
 
-Pages and posts have just one difference - posts are showing last modification time (in list and detail).
+- `public/articles/home.md` (home page and fallback for not found/invalid articles)
+- `public/articles/list.md` (list of non-archived articles)
+- `public/articles/archive.md` (list of archived articles)
+- `public/articles/about.md` (about page)
+- `public/articles/bad-ass.md` (example of an unpinned article = does not appear in top navigation)
 
-Posts folder (`public/posts`) can be empty. As for pages, at least `public/pages/home.md` should exist, but there are already two pages forr posts - `public/pages/list.md` (non-archived posts) and `public/pages/archive.md` (archived posts).
+Then just update the list in the method `File::refreshData()`; it's a prepopulated list that PHP will just add some basic info to, so that we don't have to read file contents for title/excerpt.
 
 ## Run simple lighttpd local server
 
@@ -85,10 +85,6 @@ The default configuration is just some minimum decent server for development pur
 2. Edit lighttpd.conf
 3. `lighttpd -tt -f lighttpd.conf`
 4. `lighttpd -D -f lighttpd.conf`
-
-## Documentation
-
-*In progress*
 
 ## License
 

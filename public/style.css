@@ -67,9 +67,8 @@ th,td {
 }
 
 .copyleft-icon {
-  border-left: 1px solid rgb(68, 68, 68);
-  padding-left: 0.25rem;
+  border-right: 1px solid rgb(68, 68, 68);
+  padding-right: 0.25rem;
   margin-right: 0.25rem;
-  transform: rotateY(0.5turn);
   display: inline-block;
 }

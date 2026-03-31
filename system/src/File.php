@@ -7,16 +7,14 @@ namespace Tommander\BlogSimple;
 /**
  * Represents all public pages and posts.
  *
- * @psalm-type BlogSimpleOneFileData = array{name: string, url: string, path: string, title: string, excerpt: string, mdate: int}
- * @psalm-type BlogSimpleFileList = array<string, array<string, BlogSimpleOneFileData>>
- * @psalm-type CardStyle = 'html'|'html-a-only'|'md-big'|'md-small'
+ * @psalm-type BlogSimpleOneFileData = array{url: string, path: string, title: string, excerpt: string, mdate: int, pin?: bool, archived?: bool}
+ * @psalm-type BlogSimpleFileList = array<string, BlogSimpleOneFileData>
+ * @psalm-type CardStyle = 'html'|'md'
  */
 final class File
 {
     public const CARD_HTML = 'html';
-    public const CARD_HTMLAONLY = 'html-a-only';
-    public const CARD_MD_BIG = 'md-big';
-    public const CARD_MD_SMALL = 'md-small';
+    public const CARD_MD = 'md';
 
     /** @var BlogSimpleFileList */
     public array $data = [];
@@ -49,62 +47,18 @@ final class File
     /**
      * Get the data of the specified file.
      *
-     * @param FileTypeEnum $type File type (post/page)
      * @param non-empty-string $name File name (without extension)
      *
      * @return BlogSimpleOneFileData|null
      */
-    public function getItem(FileTypeEnum $type, string $name): array|null
+    public function getItem(string $name): array|null
     {
-        if (
-            !isset($this->data[$type->value]) ||
-            !isset($this->data[$type->value][$name])
-        ) {
-            return null;
-        }
-        return $this->data[$type->value][$name];
+        return $this->data[$name];
     }
 
-    /**
-     * Data MD file data to the instance property
-     *
-     * @param FileTypeEnum $type
-     * @param non-empty-string $filename
-     */
-    private function addData(FileTypeEnum $type, string $filename): void
+    public function hasItem(string $name): bool
     {
-        $trimmed = trim($filename);
-        if (empty($trimmed) || strlen($trimmed) < 4) {
-            return;
-        }
-
-        /** @var non-empty-string */
-        $name = substr($trimmed, 0, strlen($trimmed) - 3);
-        $path = $type->path() . $name . '.md';
-        $mtime = (int) filemtime($path);
-        $content = (string) file_get_contents($path);
-        $title = 'No Title';
-        if (preg_match('/\n?#\s*(?<title>[^\r\n\0$]+)\s*/', $content, $matches) === 1) {
-            $title = $matches['title'];
-        }
-        $excerpt = '';
-        if ($type === FileTypeEnum::Posts) {
-            $firstPara = '';
-            if (preg_match('/\n?#.+?\n\n(?<para1>.+?)(?:\s*\n\n|\s*$)/', $content, $matches) === 1) {
-                $firstPara = $matches['para1'];
-            }
-            $excerpt = (strlen($firstPara) > 200) ? substr($firstPara, 0, 199) . '&hellip;' : $firstPara;
-        }
-        $item = [
-            'name' => $name,
-            'url' => self::homeUrl([$type->value => $name]),
-            'path' => $path,
-            'title' => $title,
-            'excerpt' => $excerpt,
-            'mdate' => $mtime,
-        ];
-        (!isset($this->data[$type->value]) && ($this->data[$type->value] = []));
-        $this->data[$type->value][$name] = $item;
+        return isset($this->data[$name]);
     }
 
     /**
@@ -117,81 +71,70 @@ final class File
         }
         $this->refreshed = true;
 
-        $this->data = [];
-        foreach (FileTypeEnum::cases() as $type) {
-            $path = $type->path();
-            $lst = scandir($path, SCANDIR_SORT_NONE);
-            if (!is_array($lst)) {
-                $lst = [];
-            }
+        $thedata = [
+            'home' => [
+                'title' => 'Homepage',
+                'excerpt' => '',
+                'pin' => true,
+            ],
+            'list' => [
+                'title' => 'Articles',
+                'excerpt' => '',
+                'pin' => true,
+            ],
+            'archive' => [
+                'title' => 'Archive',
+                'excerpt' => '',
+                'pin' => true,
+            ],
+            'about' => [
+                'title' => 'About me',
+                'excerpt' => '',
+                'pin' => true,
+            ],
 
-            $this->data[$type->value] = [];
-            foreach ($lst as $file) {
-                if (in_array($file, ['.', '..'], true) || !str_ends_with($file, '.md') || empty($file)) {
-                    continue;
-                }
-                /** @var non-empty-string $file */
-                $this->addData($type, $file);
-            }
+            'bad-ass' => [
+                'title' => 'Bad Ass',
+                'excerpt' => '',
+                'pin' => false,
+                'archived' => false,
+            ],
+        ];
 
-            uasort($this->data[$type->value], function (mixed $a, mixed $b) use ($type): int {
-                if (!is_array($a) || !is_array($b)) {
-                    return 0;
-                }
-
-                return match (true) {
-                    ($type === FileTypeEnum::Pages && $a['name'] === 'home') => -1,
-                    ($type === FileTypeEnum::Pages && $b['name'] === 'home') => 1,
-                    ($type === FileTypeEnum::Pages && $a['name'] === 'list') => -1,
-                    ($type === FileTypeEnum::Pages && $b['name'] === 'list') => 1,
-                    ($type === FileTypeEnum::Pages && $a['name'] === 'archive') => -1,
-                    ($type === FileTypeEnum::Pages && $b['name'] === 'archive') => 1,
-                    default => strcasecmp(
-                        is_string($a['name']) ? $a['name'] : '',
-                        is_string($b['name']) ? $b['name'] : '',
-                    ),
-                };
-            });
+        foreach ($thedata as $name => &$data) {
+            $data['url'] = self::homeUrl(['article' => $name]);
+            $data['path'] = Configuration::BLOG_DIR_ARTICLES . $name . '.md';
+            $data['mdate'] = (int) filemtime($data['path']);
         }
+
+        /** @psalm-suppress InvalidPropertyAssignmentValue */
+        $this->data = $thedata;
     }
 
     /**
      * List all files of a specific type (page/post) as HTML datacards appended to a continuous
      *
-     * @param FileTypeEnum $type File type (post/page)
      * @param CardStyle $style Card style (html/md-big/md-small)
      * @param bool $postsArchived Show only archived posts (true) or only non-archived (false). No effect on pages.
      *
      * @return string Datacards as HTML
      */
-    public function listData(FileTypeEnum $type, string $style, bool $postsArchived = false, int|null $limit = null): string
+    public function listData(string $style, bool $postsArchived = false, int|null $limit = null): string
     {
         $counter = 0;
 
-        $tempData = $this->data[$type->value];
-        if ($type === FileTypeEnum::Posts) {
+        $tempData = $this->data;
+        if ($style !== static::CARD_HTML) {
             uasort(
                 $tempData,
                 /**
                  * @param BlogSimpleOneFileData $a
                  * @param BlogSimpleOneFileData $b
                  */
-                fn ($a, $b) => (-1 * ($a['mdate'] <=> $b['mdate']))
-            );
-        } else {
-            uasort(
-                $tempData,
-                /**
-                 * @param BlogSimpleOneFileData $a
-                 * @param BlogSimpleOneFileData $b
-                 */
-                fn ($a, $b) => (strcasecmp($a['title'], $b['title']))
+                fn ($a, $b) => (($a['mdate'] === $b['mdate']) ? strcasecmp($a['title'], $b['title']) : (-1 * ($a['mdate'] <=> $b['mdate'])))
             );
         }
 
-        $home = '';
-        $posts = '';
-        $archive = '';
         $res = '';
         foreach ($tempData as /*$name => */$data) {
             if (is_int($limit)) {
@@ -200,55 +143,21 @@ final class File
                 }
                 $counter += 1;
             }
-            if ($type === FileTypeEnum::Posts) {
-                $isArchived = ((time() - ($data['mdate'] ?? 0)) > Configuration::BLOG_ARCHIVE_TIME);
-                if ($postsArchived xor $isArchived) {
-                    continue;
-                }
-            }
 
-            // if ($type === FileTypeEnum::Pages && $data['name'] === 'archive' && !$postsArchived) {
-            //     continue;
-            // }
-
-            if ($type === FileTypeEnum::Pages && $data['name'] === 'home') {
-                $home = static::datacard(
-                    $type,
-                    $style,
-                    $data['url'],
-                    $data['title'],
-                    $data['excerpt'],
-                    $data['mdate'],
-                );
+            $isArchived = ((time() - ($data['mdate'] ?? 0)) > Configuration::BLOG_ARCHIVE_TIME);
+            if ($postsArchived xor $isArchived) {
                 continue;
             }
 
-            if ($type === FileTypeEnum::Pages && $data['name'] === 'list') {
-                $posts = static::datacard(
-                    $type,
-                    $style,
-                    $data['url'],
-                    $data['title'],
-                    $data['excerpt'],
-                    $data['mdate'],
-                );
+            if ($style === static::CARD_HTML && (!isset($data['pin']) || $data['pin'] !== true)) {
                 continue;
             }
 
-            if ($type === FileTypeEnum::Pages && $data['name'] === 'archive') {
-                $archive = static::datacard(
-                    $type,
-                    $style,
-                    $data['url'],
-                    $data['title'],
-                    $data['excerpt'],
-                    $data['mdate'],
-                );
+            if ($style !== static::CARD_HTML && (isset($data['pin']) && $data['pin'] === true)) {
                 continue;
             }
 
             $res .= static::datacard(
-                $type,
                 $style,
                 $data['url'],
                 $data['title'],
@@ -256,13 +165,12 @@ final class File
                 $data['mdate'],
             );
         }
-        return "<div>\n\n" . $home . $posts . $archive . $res . "\n\n</div>";
+        return "<div>\n\n" . $res . "\n\n</div>";
     }
 
     /**
      * Creates an HTML "card" (styled div container with data inside) for a
      *
-     * @param FileTypeEnum $type File type (post/page)
      * @param CardStyle $style Card style (html/md-big/md-small)
      * @param string $url Url for that file
      * @param string $title Title of the document
@@ -271,29 +179,19 @@ final class File
      *
      * @return string HTML "datacard" for the file
      */
-    public static function datacard(FileTypeEnum $type, string $style, string $url, string $title, string $excerpt, int $mdate): string
+    public static function datacard(string $style, string $url, string $title, string $excerpt, int $mdate): string
     {
         $format = match ($style) {
-            static::CARD_HTMLAONLY => '<a class="page" href="%1$s">%2$s</a>',
             static::CARD_HTML => '<li><a class="page" href="%1$s">%2$s</a></li>',
-            static::CARD_MD_SMALL => '[%2$s](%1$s)  ' . PHP_EOL,
-            static::CARD_MD_BIG => match ($type) {
-                FileTypeEnum::Pages => <<<'MD'
-                    > **[%2$s](%1$s)**
+            static::CARD_MD => <<<'MD'
+                > **[%2$s](%1$s)**\
+                > <small>🗓️ %4$s</small>
+                >
+                > %5$s
 
 
 
-                    MD,
-                default => <<<'MD'
-                    > **[%2$s](%1$s)**\
-                    > <small>🗓️ %4$s</small>
-                    >
-                    > %5$s
-
-
-
-                    MD,
-            },
+                MD,
         };
         return sprintf(
             $format,

@@ -78,6 +78,7 @@ final class Cache
      */
     public function __construct()
     {
+        /** @psalm-suppress TypeDoesNotContainType */
         if (Configuration::BLOG_NO_CACHE === true) {
             throw new \Error(Configuration::TEXT_CACHE_DISABLED_ERROR);
         }
@@ -132,21 +133,20 @@ final class Cache
         return $total;
     }
 
-    public static function cacheFilename(string $dirname, string $filename): string
+    public static function cacheFilename(string $filename): string
     {
-        return sprintf('cache_%1$s_%2$s.html', $dirname, $filename);
+        return sprintf('cache_%1$s.html', $filename);
     }
 
     /**
      * Deletes all cache files (.html)
 
-     * @param FileTypeEnum|null $dirname If `null`, delete cache files in all folders (posts, pages)
      * @param non-empty-string|null $filename
      */
-    public function reset(FileTypeEnum|null $dirname = null, string|null $filename = null): void
+    public function reset(string|null $filename = null): void
     {
-        if (($dirname instanceof FileTypeEnum) && is_string($filename)) {
-            $list = [self::cacheFilename($dirname->value, $filename)];
+        if (is_string($filename)) {
+            $list = [self::cacheFilename($filename)];
         } else {
             $list = scandir(Configuration::BLOG_DIR_CACHE, SCANDIR_SORT_NONE);
         }
@@ -170,14 +170,13 @@ final class Cache
     /**
      * Retrieve a cache file
      *
-     * @param FileTypeEnum $dirname
      * @param non-empty-string $filename
      *
      * @return string|null Returns the content of the cache file if found and not expired, `null` otherwise.
      */
-    public function get(FileTypeEnum $dirname, string $filename): string|null
+    public function get(string $filename): string|null
     {
-        $cacheFile = Configuration::BLOG_DIR_CACHE . self::cacheFilename($dirname->value, $filename);
+        $cacheFile = Configuration::BLOG_DIR_CACHE . self::cacheFilename($filename);
 
         if (
             file_exists($cacheFile) &&
